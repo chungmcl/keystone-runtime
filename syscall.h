@@ -15,8 +15,9 @@
 #define RUNTIME_SYSCALL_SHAREDCOPY          1002
 #define RUNTIME_SYSCALL_ATTEST_ENCLAVE      1003
 #define RUNTIME_SYSCALL_GET_SEALING_KEY     1004
-//chungmcl
+//chungmcl: should match with eapp/syscall.h
 #define RUNTIME_SYSCALL_BEEF                1005
+#define RUNTIME_SYSCALL_GET_EID             1006
 //chungmcl
 #define RUNTIME_SYSCALL_EXIT                1101
 

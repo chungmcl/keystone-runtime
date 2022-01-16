@@ -40,6 +40,14 @@ sbi_set_timer(uint64_t stime_value) {
 #endif
 }
 
+// chungmcl
+uintptr_t
+sbi_get_eid() {
+  return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_EID);
+}
+// chungmcl
+
+// chungmcl: called by vanilla hello_native
 uintptr_t
 sbi_stop_enclave(uint64_t request) {
   return SBI_CALL_1(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_STOP_ENCLAVE, request);

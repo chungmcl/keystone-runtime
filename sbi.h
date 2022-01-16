@@ -16,11 +16,15 @@
 #define SBI_SM_DESTROY_ENCLAVE   2002
 #define SBI_SM_RUN_ENCLAVE       2003
 #define SBI_SM_RESUME_ENCLAVE    2005
+
 #define SBI_SM_RANDOM            3001
 #define SBI_SM_ATTEST_ENCLAVE    3002
 #define SBI_SM_GET_SEALING_KEY   3003
 #define SBI_SM_STOP_ENCLAVE      3004
 #define SBI_SM_EXIT_ENCLAVE      3006
+// chungmcl: should match with sm/sm.h
+#define SBI_SM_GET_EID           3007
+// chungmcl
 #define SBI_SM_CALL_PLUGIN       4000
 
 /* Plugin IDs and Call IDs */
@@ -32,6 +36,12 @@ void
 sbi_putchar(char c);
 void
 sbi_set_timer(uint64_t stime_value);
+
+// chungmcl
+uintptr_t
+sbi_get_eid();
+// chungmcl
+
 uintptr_t
 sbi_stop_enclave(uint64_t request);
 void
