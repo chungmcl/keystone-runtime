@@ -136,7 +136,7 @@ uintptr_t dispatch_edgecall_eid( unsigned long call_id, // Look here! chungmcl
    * dispatch the ocall to host */
 
   edge_call->call_id = call_id;
-  uintptr_t buffer_data_start = edge_call_data_ptr();
+  //uintptr_t buffer_data_start = edge_call_data_ptr();
 
   //ret = sbi_stop_enclave(1);
   ret = sbi_get_eid();
