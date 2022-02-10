@@ -156,6 +156,7 @@ void handle_syscall(struct encl_ctx* ctx)
   // FOR DEBUGGING! REMOVE LATER!
   // pause every time handle_syscall() is called to test pausing
   sbi_pause();
+  // test
   // chungmcl
   uintptr_t n = ctx->regs.a7;
   uintptr_t arg0 = ctx->regs.a0;
