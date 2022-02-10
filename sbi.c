@@ -41,9 +41,9 @@ sbi_set_timer(uint64_t stime_value) {
 }
 
 // chungmcl
-uintptr_t
-sbi_get_eid() {
-  return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_EID);
+uintpr_t
+sbi_pause() {
+  return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_PAUSE);
 }
 // chungmcl
 

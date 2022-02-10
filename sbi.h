@@ -23,7 +23,7 @@
 #define SBI_SM_STOP_ENCLAVE      3004
 #define SBI_SM_EXIT_ENCLAVE      3006
 // chungmcl: should match with sm/sm.h
-#define SBI_SM_GET_EID           3007
+#define SBI_SM_PAUSE             3007
 // chungmcl
 #define SBI_SM_CALL_PLUGIN       4000
 
@@ -39,7 +39,7 @@ sbi_set_timer(uint64_t stime_value);
 
 // chungmcl
 uintptr_t
-sbi_get_eid();
+sbi_pause();
 // chungmcl
 
 uintptr_t

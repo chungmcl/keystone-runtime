@@ -144,6 +144,19 @@ void init_edge_internals(){
 
 void handle_syscall(struct encl_ctx* ctx)
 {
+  // chungmcl
+  // walk: just pause until next epoch at every write to shared mem
+  //
+  // jog: add a buffering system but still pause at next epoch at every write
+  //
+  // run: hijack eapp call:
+  // are deadlines up?
+  // - if yes, finalize writes (flush buffer)
+  // - if exiting (exit/stop), finalize writes at the furthest deadline
+  // FOR DEBUGGING! REMOVE LATER!
+  // pause every time handle_syscall() is called to test pausing
+  sbi_pause();
+  // chungmcl
   uintptr_t n = ctx->regs.a7;
   uintptr_t arg0 = ctx->regs.a0;
   uintptr_t arg1 = ctx->regs.a1;
