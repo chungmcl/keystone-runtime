@@ -41,7 +41,7 @@ sbi_set_timer(uint64_t stime_value) {
 }
 
 // chungmcl
-uintpr_t
+uintptr_t
 sbi_pause() {
   return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_PAUSE);
 }
