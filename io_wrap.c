@@ -25,6 +25,9 @@
 uintptr_t io_syscall_sync(){
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_sync;
 
   size_t totalsize = (sizeof(struct edge_syscall));
@@ -37,9 +40,18 @@ uintptr_t io_syscall_sync(){
 uintptr_t io_syscall_ftruncate(int fd, off_t offset){
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
   sargs_SYS_ftruncate* args = (sargs_SYS_ftruncate*)edge_syscall->data;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_ftruncate;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->fd = fd;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->offset = offset;
 
   size_t totalsize = (sizeof(struct edge_syscall)+
@@ -52,8 +64,14 @@ uintptr_t io_syscall_ftruncate(int fd, off_t offset){
 uintptr_t io_syscall_fsync(int fd){
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
   sargs_SYS_fsync* args = (sargs_SYS_fsync*)edge_syscall->data;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_fsync;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->fd = fd;
 
   size_t totalsize = (sizeof(struct edge_syscall)+
@@ -67,10 +85,22 @@ uintptr_t io_syscall_fsync(int fd){
 uintptr_t io_syscall_lseek(int fd, off_t offset, int whence){
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
   sargs_SYS_lseek* args = (sargs_SYS_lseek*)edge_syscall->data;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_lseek;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->fd = fd;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->offset = offset;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->whence = whence;
 
   size_t totalsize = (sizeof(struct edge_syscall)+
@@ -85,8 +115,14 @@ uintptr_t io_syscall_lseek(int fd, off_t offset, int whence){
 uintptr_t io_syscall_close(int fd){
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
   sargs_SYS_close* args = (sargs_SYS_close*)edge_syscall->data;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_close;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->fd = fd;
 
   size_t totalsize = (sizeof(struct edge_syscall)+
@@ -101,8 +137,17 @@ uintptr_t io_syscall_read(int fd, void* buf, size_t len){
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
   sargs_SYS_read* args = (sargs_SYS_read*)edge_syscall->data;
   uintptr_t ret = -1;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_read;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->fd =fd;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->len = len;
 
   // Sanity check that the read buffer will fit in the shared memory
@@ -121,6 +166,7 @@ uintptr_t io_syscall_read(int fd, void* buf, size_t len){
   }
 
   // Previously checked that this is staying in untrusted buffer range
+  // chungmcl ??? 1
   copy_to_user(buf, args->buf, ret > len? len: ret);
 
  done:
@@ -143,8 +189,17 @@ uintptr_t io_syscall_write(int fd, void* buf, size_t len){
   sargs_SYS_write* args = (sargs_SYS_write*)edge_syscall->data;
   uintptr_t ret = -1;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_write;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->fd =fd;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->len = len;
 
   // Sanity check that the write buffer will fit in the shared memory
@@ -152,6 +207,7 @@ uintptr_t io_syscall_write(int fd, void* buf, size_t len){
     goto done;
   }
 
+  // chungmcl ??? 1
   copy_from_user(args->buf, buf, len);
 
   size_t totalsize = (sizeof(struct edge_syscall) +
@@ -170,9 +226,21 @@ uintptr_t io_syscall_openat(int dirfd, char* path,
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
   sargs_SYS_openat* args = (sargs_SYS_openat*)edge_syscall->data;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_openat;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->dirfd = dirfd;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->flags = flags;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->mode = mode;
   uintptr_t ret = -1;
 
@@ -182,6 +250,7 @@ uintptr_t io_syscall_openat(int dirfd, char* path,
   if(edge_call_check_ptr_valid((uintptr_t)args->path, pathlen) != 0){
     goto done;
   }
+  // chungmcl ??? 1
   copy_from_user(args->path, path, pathlen);
 
   size_t totalsize = (sizeof(struct edge_syscall) +
@@ -193,6 +262,7 @@ uintptr_t io_syscall_openat(int dirfd, char* path,
 
  done:
   // TODO path print here isn't necessarily correct or even copied!
+  // chungmcl ??? 2
   print_strace("[runtime] proxied openat(path: %.*s) = %li\r\n",
                pathlen>MAX_STRACE_PRINT?MAX_STRACE_PRINT:pathlen,args->path, ret);
 
@@ -214,6 +284,7 @@ uintptr_t io_syscall_unlinkat(int dirfd, char* path,
   if(edge_call_check_ptr_valid((uintptr_t)args->path, pathlen) != 0){
     goto done;
   }
+  // chungmcl ??? 1
   copy_from_user(args->path, path, pathlen);
 
   size_t totalsize = (sizeof(struct edge_syscall) +
@@ -225,6 +296,7 @@ uintptr_t io_syscall_unlinkat(int dirfd, char* path,
 
  done:
   // TODO path print here isn't necessarily correct or even copied!
+  // chungmcl ??? 2
   print_strace("[runtime] proxied unlinkat(path: %.*s) = %li\r\n",
                pathlen>MAX_STRACE_PRINT?MAX_STRACE_PRINT:pathlen,args->path, ret);
   return ret;
@@ -269,8 +341,17 @@ uintptr_t io_syscall_fstatat(int dirfd, char *pathname, struct stat *statbuf,
   sargs_SYS_fstatat* args = (sargs_SYS_fstatat*)edge_syscall->data;
   uintptr_t ret = -1;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_fstatat;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->dirfd = dirfd;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->flags = flags;
 
   size_t pathlen;
@@ -279,6 +360,7 @@ uintptr_t io_syscall_fstatat(int dirfd, char *pathname, struct stat *statbuf,
   if(edge_call_check_ptr_valid((uintptr_t)args->pathname, pathlen) != 0){
     goto done;
   }
+  // chungmcl ??? 1
   copy_from_user(args->pathname, pathname, pathlen);
 
   size_t totalsize = (sizeof(struct edge_syscall) +
@@ -288,6 +370,7 @@ uintptr_t io_syscall_fstatat(int dirfd, char *pathname, struct stat *statbuf,
   ret = dispatch_edgecall_syscall(edge_syscall, totalsize);
 
   if(ret == 0){
+    // chungmcl ??? 1
     copy_to_user(statbuf, &args->stats, sizeof(struct stat));
   }
 
@@ -302,6 +385,9 @@ uintptr_t io_syscall_pipe(int *fds){
 
   uintptr_t ret = -1;
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_pipe2;
 
   int *args = (int *) edge_syscall->data;
@@ -311,6 +397,7 @@ uintptr_t io_syscall_pipe(int *fds){
   ret = dispatch_edgecall_syscall(edge_syscall, totalsize);
 
   if(ret == 0){
+    // chungmcl ??? 1
     copy_to_user(fds, args, 2 * sizeof(int));
   }
 
@@ -321,12 +408,18 @@ uintptr_t io_syscall_pipe(int *fds){
 uintptr_t io_syscall_epoll_create(int size){
   uintptr_t ret = -1;
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_epoll_create1;
 
   sargs_SYS_epoll_create1 *args = (sargs_SYS_epoll_create1 *) edge_syscall->data;
 
   // Since Linux 2.6.8, the size argument is ignored, but must be greater than
   // zero. See https://man7.org/linux/man-pages/man2/epoll_create.2.html
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->size = 1024; 
 
   size_t totalsize = sizeof(struct edge_syscall) + sizeof(sargs_SYS_epoll_create1);
@@ -361,8 +454,17 @@ uintptr_t io_syscall_fcntl(int fd, int cmd, uintptr_t arg){
   sargs_SYS_fcntl* args = (sargs_SYS_fcntl*)edge_syscall->data;
   uintptr_t ret = -1;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_fcntl;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->fd = fd;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->cmd = cmd;
 
   size_t totalsize;
@@ -372,14 +474,25 @@ uintptr_t io_syscall_fcntl(int fd, int cmd, uintptr_t arg){
       print_strace("Ptr not valid");
       goto done;
     }
+    // chungmcl ??? 1
     copy_from_user((struct flock *) args->arg, (struct flock *) arg, sizeof(struct flock));
+
+    // chungmcl
+    sbi_pause();
+    // chungmcl
     args->has_struct = 1;
 
     totalsize = (sizeof(struct edge_syscall) +
                       sizeof(sargs_SYS_fcntl) + 
                       sizeof(struct flock));
   } else {
+    // chungmcl
+    sbi_pause();
+    // chungmcl
     args->arg[0] = arg;
+    // chungmcl
+    sbi_pause();
+    // chungmcl
     args->has_struct = 0;
     totalsize = (sizeof(struct edge_syscall) +
                       sizeof(sargs_SYS_fcntl));
@@ -399,6 +512,9 @@ uintptr_t io_syscall_getcwd(char* buf, size_t size){
   sargs_SYS_getcwd* args = (sargs_SYS_getcwd*)edge_syscall->data;
   // char* syscall_ret = NULL;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_getcwd;
 
   size_t totalsize = (sizeof(struct edge_syscall) +
@@ -406,6 +522,7 @@ uintptr_t io_syscall_getcwd(char* buf, size_t size){
 
   dispatch_edgecall_syscall(edge_syscall, totalsize);
 
+  // chungmcl ??? 1
   copy_to_user(buf, &args->buf, size);
   print_strace("[runtime] proxied getcwd\r\n");
   return (uintptr_t) buf;
@@ -419,8 +536,12 @@ uintptr_t io_syscall_chdir(char* path) {
   sargs_SYS_chdir* args = (sargs_SYS_chdir*)edge_syscall->data;
   // char* syscall_ret = NULL;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_chdir;
 
+  // chungmcl ??? 1
   copy_from_user(args->path, path, strlen(path) + 1);
 
   size_t totalsize = (sizeof(struct edge_syscall)) + strlen(args->path) + 1;
@@ -436,17 +557,31 @@ uintptr_t io_syscall_epoll_pwait(int epfd, uintptr_t events, int maxevents, int 
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
   sargs_SYS_epoll_pwait* args = (sargs_SYS_epoll_pwait*) edge_syscall->data;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_epoll_pwait;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->epfd = epfd;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->maxevents = maxevents;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->timeout = timeout; 
 
+  // chungmcl ??? 1
   copy_from_user(&args->events, (void *) events, sizeof(struct epoll_event));  
 
   size_t totalsize = (sizeof(struct edge_syscall)) + sizeof(sargs_SYS_epoll_pwait);
   ret = dispatch_edgecall_syscall(edge_syscall, totalsize);
 
+  // chungmcl ??? 1
   copy_to_user((void *) events, &args->events, sizeof(struct epoll_event));
   print_strace("[runtime] proxied epoll_pwait: epfd: %d, ret: %d\r\n", args->epfd, ret);
   return ret;
@@ -457,13 +592,27 @@ uintptr_t io_syscall_renameat2(int olddirfd,  uintptr_t oldpath, int newdirfd, u
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
   sargs_SYS_renameat2* args = (sargs_SYS_renameat2*) edge_syscall->data;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_renameat2;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->olddirfd = olddirfd;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->newdirfd = newdirfd;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->flags = flags;
 
+  // chungmcl ??? 1
   copy_from_user(&args->oldpath, (void *) oldpath, 128);  
+  // chungmcl ??? 1
   copy_from_user(&args->newpath, (void *) newpath, 128);  
 
   size_t totalsize = (sizeof(struct edge_syscall)) + sizeof(sargs_SYS_renameat2);
@@ -478,7 +627,13 @@ uintptr_t io_syscall_umask(int mask){
   struct edge_syscall* edge_syscall = (struct edge_syscall*)edge_call_data_ptr();
   sargs_SYS_umask* args = (sargs_SYS_umask*) edge_syscall->data;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_umask;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->mask = mask;
 
   size_t totalsize = (sizeof(struct edge_syscall)) + sizeof(sargs_SYS_umask);
@@ -493,7 +648,13 @@ uintptr_t io_syscall_fstat(int fd, struct stat *statbuf){
   sargs_SYS_fstat* args = (sargs_SYS_fstat*)edge_syscall->data;
   uintptr_t ret = -1;
 
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   edge_syscall->syscall_num = SYS_fstat;
+  // chungmcl
+  sbi_pause();
+  // chungmcl
   args->fd = fd;
 
   size_t totalsize = (sizeof(struct edge_syscall) +
@@ -502,6 +663,7 @@ uintptr_t io_syscall_fstat(int fd, struct stat *statbuf){
   ret = dispatch_edgecall_syscall(edge_syscall, totalsize);
 
   if(ret == 0){
+    // chungmcl ??? 1
     copy_to_user(statbuf, &args->stats, sizeof(struct stat));
   }
 

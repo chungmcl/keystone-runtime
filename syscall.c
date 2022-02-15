@@ -153,10 +153,6 @@ void handle_syscall(struct encl_ctx* ctx)
   // are deadlines up?
   // - if yes, finalize writes (flush buffer)
   // - if exiting (exit/stop), finalize writes at the furthest deadline
-  // FOR DEBUGGING! REMOVE LATER!
-  // pause every time handle_syscall() is called to test pausing
-  sbi_pause();
-  // test
   // chungmcl
   uintptr_t n = ctx->regs.a7;
   uintptr_t arg0 = ctx->regs.a0;
