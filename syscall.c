@@ -23,8 +23,12 @@
 
 extern void exit_enclave(uintptr_t arg0);
 
-uintptr_t dispatch_edgecall_syscall(struct edge_syscall* syscall_data_ptr, size_t data_len){
+uintptr_t dispatch_edgecall_syscall(struct edge_syscall* syscall_data_ptr, size_t data_len, bool pause){
   int ret;
+
+  if (pause) {
+    sbi_pause();
+  }
 
   // Syscall data should already be at the edge_call_data section
   /* For now we assume by convention that the start of the buffer is
