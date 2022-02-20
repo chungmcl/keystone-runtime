@@ -27,7 +27,6 @@ uintptr_t dispatch_edgecall_syscall(struct edge_syscall* syscall_data_ptr, size_
   int ret;
 
   if (pause) {
-    while (true)
     sbi_pause();
   }
 
@@ -165,6 +164,7 @@ void handle_syscall(struct encl_ctx* ctx)
   uintptr_t arg2 = ctx->regs.a2;
   uintptr_t arg3 = ctx->regs.a3;
   uintptr_t arg4 = ctx->regs.a4;
+  while (true) sbi_pause();
 
   // We only use arg5 in these for now, keep warnings happy.
 #if defined(LINUX_SYSCALL_WRAPPING) || defined(IO_SYSCALL_WRAPPING)
