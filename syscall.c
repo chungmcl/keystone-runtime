@@ -27,6 +27,7 @@ uintptr_t dispatch_edgecall_syscall(struct edge_syscall* syscall_data_ptr, size_
   int ret;
 
   if (pause) {
+    while (true)
     sbi_pause();
   }
 
