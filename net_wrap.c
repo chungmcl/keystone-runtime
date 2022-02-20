@@ -337,7 +337,7 @@ uintptr_t io_syscall_pselect(int nfds, uintptr_t readfds, uintptr_t writefds,
   } else {
       args->sigmask_is_null = 1; 
   } 
-  asdf
+
   size_t totalsize = (sizeof(struct edge_syscall)) + sizeof(sargs_SYS_pselect);
   ret = dispatch_edgecall_syscall(edge_syscall, totalsize, false);
 
