@@ -65,7 +65,7 @@ uintptr_t dispatch_edgecall_syscall(struct edge_syscall* syscall_data_ptr, size_
   return *(uintptr_t*)return_ptr;
 }
 
-uintptr_t dispatch_edgecall_ocall( unsigned long call_id, // Look here! chungmcl
+uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
 				   void* data, size_t data_len,
 				   void* return_buffer, size_t return_len){
 

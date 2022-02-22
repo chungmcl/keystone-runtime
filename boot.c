@@ -145,6 +145,10 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   /* initialize free memory */
   init_freemem();
 
+  /* initialize timing buffer memory */
+  // size of page defined by RISCV_PAGE_SIZE in vm_defs.h
+  timing_buffer = spa_get();
+
   //TODO: This should be set by walking the userspace vm and finding
   //highest used addr. Instead we start partway through the anon space
   set_program_break(EYRIE_ANON_REGION_START + (1024 * 1024 * 1024));
