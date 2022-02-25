@@ -192,9 +192,12 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
     if(req_pages <= valid_pages){
       // Set a successful value if we allocate
       // TODO free partial allocation on failure
-      if(alloc_pages(starting_vpn, req_pages, pte_flags) == req_pages){
-        timing_buffer = starting_vpn << RISCV_PAGE_BITS;
-      }
+      //if(alloc_pages(starting_vpn, req_pages, pte_flags) == req_pages){
+      //  timing_buffer = starting_vpn << RISCV_PAGE_BITS;
+      //}
+      uintptr_t alloc_result = alloc_page(starting_vpn, pte_flags);
+      if (alloc_result == 0) break;
+      timing_buffer = alloc_result;
       break;
     }
     else
