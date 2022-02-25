@@ -180,9 +180,13 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   // vpn() virtual -> 
   // look at linux_wrap.c mmap for example
 
-  //uintptr_t starting_vpn = vpn(EYRIE_UNTRUSTED_START);
-  uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
+  // TODO(chungmcl): which one do I use? what's the difference?
+  uintptr_t starting_vpn = vpn(EYRIE_UNTRUSTED_START);
+  //uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
+
+  // TODO(chungmcl): find better way to do this
   int req_pages = 1;
+
   // TODO(chungmcl): get rid of PTE_U and write a alloc_pages
   // that doesn't crash without PTE_U
   int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A | PTE_U;
