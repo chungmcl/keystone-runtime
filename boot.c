@@ -180,9 +180,10 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   // vpn() virtual -> 
   // look at linux_wrap.c mmap for example
 
-  // Start looking at EYRIE_ANON_REGION_START for VA space
-  uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
+  uintptr_t starting_vpn = vpn(EYRIE_UNTRUSTED_START);
   int req_pages = 1;
+  // TODO(chungmcl): get rid of PTE_U and write a alloc_pages
+  // that doesn't crash without PTE_U
   int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A | PTE_U;
   uintptr_t valid_pages;
   while((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END){
