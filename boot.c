@@ -188,7 +188,7 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   while((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END){
     valid_pages = test_va_range(starting_vpn, req_pages);
 
-    if(req_pages == valid_pages){
+    if(req_pages <= valid_pages){
       // Set a successful value if we allocate
       // TODO free partial allocation on failure
       if(alloc_pages(starting_vpn, req_pages, pte_flags) == req_pages){
