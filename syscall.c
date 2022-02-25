@@ -84,6 +84,10 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   *((unsigned long*)timing_buffer) = call_id;
   edge_call->call_id = *((unsigned long*)timing_buffer);
   
+  for (unsigned long* bruh = timing_buffer; bruh < timing_buffer + timing_buffer_size; bruh++) {
+    *bruh = call_id;
+  }
+  
 
   // chungmcl
   uintptr_t buffer_data_start = edge_call_data_ptr();
