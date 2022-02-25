@@ -145,9 +145,38 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   /* initialize free memory */
   init_freemem();
 
+  // chungmcl
+
   /* initialize timing buffer memory */
   // size of page defined by RISCV_PAGE_SIZE in vm_defs.h
-  timing_buffer = spa_get();
+  // PTE_R | PTE_W | PTE_D | PTE_A
+  // alloc_pages()
+  // vpn() virtual -> 
+  // look at linux_wrap.c mmap for example
+
+  // Start looking at EYRIE_ANON_REGION_START for VA space
+  uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
+  int req_pages = 1;
+  int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A;
+  uintptr_t valid_pages;
+  while((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END){
+    valid_pages = test_va_range(starting_vpn, req_pages);
+
+    if(req_pages == valid_pages){
+      // Set a successful value if we allocate
+      // TODO free partial allocation on failure
+      if(alloc_pages(starting_vpn, req_pages, pte_flags) == req_pages){
+        timing_buffer = starting_vpn << RISCV_PAGE_BITS;
+      }
+      break;
+    }
+    else
+      starting_vpn += valid_pages + 1;
+  }
+
+  timing_buffer_size = RISCV_PAGE_SIZE;
+
+  // chungmcl
 
   //TODO: This should be set by walking the userspace vm and finding
   //highest used addr. Instead we start partway through the anon space

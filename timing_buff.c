@@ -10,10 +10,11 @@ int timing_buff_count;
 
 bool timing_buff_push(void* dest, void* data, size_t data_size) {
   // buffer start at timing_buffer
-  // buffer end at timing_buffer + RISCV_PAGE_SIZE
+  // buffer end at timing_buffer + timing_buffer_size
   // stack top at timing_buffer + sizeof(buf_entry) * timing_buff_count
   // 
   // [[buf_entry][buf_entry][buf_entry]--->        <---[var width data][var width data][var width data]]
+  // use flexible array members
 
   // on each push, add new buf_entry to stack from LHS of timing_buffer
   // push *data to stack from the RHS of the timing_buffer
