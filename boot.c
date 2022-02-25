@@ -180,7 +180,8 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   // vpn() virtual -> 
   // look at linux_wrap.c mmap for example
 
-  uintptr_t starting_vpn = vpn(EYRIE_UNTRUSTED_START);
+  //uintptr_t starting_vpn = vpn(EYRIE_UNTRUSTED_START);
+  uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
   int req_pages = 1;
   // TODO(chungmcl): get rid of PTE_U and write a alloc_pages
   // that doesn't crash without PTE_U
@@ -190,13 +191,11 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
     valid_pages = test_va_range(starting_vpn, req_pages);
 
     if(req_pages <= valid_pages){
-      // Set a successful value if we allocate
-      // TODO free partial allocation on failure
-      //if(alloc_pages(starting_vpn, req_pages, pte_flags) == req_pages){
-      //  timing_buffer = starting_vpn << RISCV_PAGE_BITS;
-      //}
       uintptr_t alloc_result = alloc_page(starting_vpn, pte_flags);
-      if (alloc_result == 0) break;
+      // if alloc_page fails
+      if (alloc_result == 0) {
+        // TODO(chungmcl): what do we do here?
+      }
       timing_buffer = alloc_result;
       break;
     }
