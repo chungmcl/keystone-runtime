@@ -79,7 +79,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
    * dispatch the ocall to host */
   
   // chungmcl
-  //edge_call->call_id = call_id;
+  edge_call->call_id = call_id;
   
 
   // chungmcl
