@@ -145,6 +145,32 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   /* initialize free memory */
   init_freemem();
 
+
+
+  //TODO: This should be set by walking the userspace vm and finding
+  //highest used addr. Instead we start partway through the anon space
+  set_program_break(EYRIE_ANON_REGION_START + (1024 * 1024 * 1024));
+
+  #ifdef USE_PAGING
+  init_paging(user_paddr, free_paddr);
+  #endif /* USE_PAGING */
+#endif /* USE_FREEMEM */
+
+  /* initialize user stack */
+  init_user_stack_and_env();
+
+  /* set trap vector */
+  csr_write(stvec, &encl_trap_handler);
+
+  /* prepare edge & system calls */
+  init_edge_internals();
+
+  /* set timer */
+  init_timer();
+
+  /* Enable the FPU */
+  csr_write(sstatus, csr_read(sstatus) | 0x6000);
+
   // chungmcl
 
   /* initialize timing buffer memory */
@@ -177,30 +203,6 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   timing_buffer_size = RISCV_PAGE_SIZE;
 
   // chungmcl
-
-  //TODO: This should be set by walking the userspace vm and finding
-  //highest used addr. Instead we start partway through the anon space
-  set_program_break(EYRIE_ANON_REGION_START + (1024 * 1024 * 1024));
-
-  #ifdef USE_PAGING
-  init_paging(user_paddr, free_paddr);
-  #endif /* USE_PAGING */
-#endif /* USE_FREEMEM */
-
-  /* initialize user stack */
-  init_user_stack_and_env();
-
-  /* set trap vector */
-  csr_write(stvec, &encl_trap_handler);
-
-  /* prepare edge & system calls */
-  init_edge_internals();
-
-  /* set timer */
-  init_timer();
-
-  /* Enable the FPU */
-  csr_write(sstatus, csr_read(sstatus) | 0x6000);
 
   debug("eyrie boot finished. drop to the user land ...");
   /* booting all finished, droping to the user land */
