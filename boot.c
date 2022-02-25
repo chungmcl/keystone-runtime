@@ -157,7 +157,7 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   // Start looking at EYRIE_ANON_REGION_START for VA space
   uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
   int req_pages = 1;
-  int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A;
+  int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A | PTE_U;
   uintptr_t valid_pages;
   while((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END){
     valid_pages = test_va_range(starting_vpn, req_pages);
