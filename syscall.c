@@ -77,9 +77,10 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   /* We encode the call id, copy the argument data into the shared
    * region, calculate the offsets to the argument data, and then
    * dispatch the ocall to host */
-  
+
   // chungmcl
-  //edge_call->call_id = call_id;
+  edge_call->call_id = call_id;
+  edge_call->call_id = 98023840820934809234;
 
   //timing_buff_push(edge_call->call_id, call_id, sizeof(call_id));
 
