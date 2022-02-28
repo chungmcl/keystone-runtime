@@ -168,7 +168,7 @@ void handle_syscall(struct encl_ctx* ctx)
   uintptr_t arg1 = ctx->regs.a1;
   uintptr_t arg2 = ctx->regs.a2;
   uintptr_t arg3 = ctx->regs.a3;
-  uintptr_t arg4 = ctx->regs.a4;
+  //uintptr_t arg4 = ctx->regs.a4;
 
   // We only use arg5 in these for now, keep warnings happy.
 #if defined(LINUX_SYSCALL_WRAPPING) || defined(IO_SYSCALL_WRAPPING)
