@@ -1,4 +1,6 @@
 #include "timing_buff.h"
+#include "vm.h"
+#include "mm.h"
 
 uint8_t* timing_buff;
 uint8_t* timing_buff_end;
@@ -53,6 +55,7 @@ bool timing_buff_init() {
   timing_buff_count = 0;
   head = timing_buff;
   tail = timing_buff;
+  return true;
 }
 
 void copy(uint8_t* from, uint8_t* to, size_t size) {
