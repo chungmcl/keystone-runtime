@@ -168,7 +168,7 @@ void handle_syscall(struct encl_ctx* ctx)
   uintptr_t arg1 = ctx->regs.a1;
   uintptr_t arg2 = ctx->regs.a2;
   uintptr_t arg3 = ctx->regs.a3;
-  //uintptr_t arg4 = ctx->regs.a4;
+  uintptr_t arg4 = ctx->regs.a4;
 
   // We only use arg5 in these for now, keep warnings happy.
 #if defined(LINUX_SYSCALL_WRAPPING) || defined(IO_SYSCALL_WRAPPING)
@@ -185,6 +185,7 @@ void handle_syscall(struct encl_ctx* ctx)
     break;
   case(RUNTIME_SYSCALL_OCALL):
     //ret = dispatch_edgecall_ocall(arg0, (void*)arg1, arg2, (void*)arg3, arg4);
+    arg4 += 1;
     break;
   case(RUNTIME_SYSCALL_SHAREDCOPY):
     ret = handle_copy_from_shared((void*)arg0, arg1, arg2);
