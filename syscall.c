@@ -184,7 +184,7 @@ void handle_syscall(struct encl_ctx* ctx)
     sbi_exit_enclave(arg0);
     break;
   case(RUNTIME_SYSCALL_OCALL):
-    ret = dispatch_edgecall_ocall(arg0, (void*)arg1, arg2, (void*)arg3, arg4);
+    //ret = dispatch_edgecall_ocall(arg0, (void*)arg1, arg2, (void*)arg3, arg4);
     break;
   case(RUNTIME_SYSCALL_SHAREDCOPY):
     ret = handle_copy_from_shared((void*)arg0, arg1, arg2);
