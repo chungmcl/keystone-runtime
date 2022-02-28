@@ -25,9 +25,3 @@ size_t freemem_size;
 /* shared buffer */
 uintptr_t shared_buffer;
 uintptr_t shared_buffer_size;
-
-/* timing buffer */
-uintptr_t timing_buffer;
-uintptr_t timing_buffer_size;
-
-
