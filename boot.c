@@ -145,7 +145,7 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
 
   /* initialize free memory */
   init_freemem();
-
+  asdf
 
 
   //TODO: This should be set by walking the userspace vm and finding
@@ -173,7 +173,7 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   csr_write(sstatus, csr_read(sstatus) | 0x6000);
 
   // chungmcl
-  timing_buff_init();
+  //timing_buff_init();
   // chungmcl
 
   debug("eyrie boot finished. drop to the user land ...");
