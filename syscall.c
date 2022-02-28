@@ -79,7 +79,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
    * dispatch the ocall to host */
 
   // chungmcl
-  //edge_call->call_id = call_id
+  //edge_call->call_id = call_id;
 
   //timing_buff_push(edge_call->call_id, call_id, sizeof(call_id));
 
@@ -184,8 +184,7 @@ void handle_syscall(struct encl_ctx* ctx)
     sbi_exit_enclave(arg0);
     break;
   case(RUNTIME_SYSCALL_OCALL):
-    //ret = dispatch_edgecall_ocall(arg0, (void*)arg1, arg2, (void*)arg3, arg4);
-    arg4 += 1;
+    ret = dispatch_edgecall_ocall(arg0, (void*)arg1, arg2, (void*)arg3, arg4);
     break;
   case(RUNTIME_SYSCALL_SHAREDCOPY):
     ret = handle_copy_from_shared((void*)arg0, arg1, arg2);
