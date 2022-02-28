@@ -145,8 +145,6 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
 
   /* initialize free memory */
   init_freemem();
-  asdf
-
 
   //TODO: This should be set by walking the userspace vm and finding
   //highest used addr. Instead we start partway through the anon space

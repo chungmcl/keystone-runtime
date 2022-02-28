@@ -1,6 +1,4 @@
 #include "timing_buff.h"
-#include "vm.h"
-#include "mm.h"
 
 uint8_t* timing_buff;
 uint8_t* timing_buff_end;
