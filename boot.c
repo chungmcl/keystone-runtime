@@ -10,6 +10,7 @@
 #include "mm.h"
 #include "env.h"
 #include "paging.h"
+#include "timing_buff.h"
 
 /* defined in vm.h */
 extern uintptr_t shared_buffer;
@@ -172,43 +173,7 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   csr_write(sstatus, csr_read(sstatus) | 0x6000);
 
   // chungmcl
-
-  /* initialize timing buffer memory */
-  // size of page defined by RISCV_PAGE_SIZE in vm_defs.h
-  // PTE_R | PTE_W | PTE_D | PTE_A
-  // alloc_pages()
-  // vpn() virtual -> 
-  // look at linux_wrap.c mmap for example
-
-  // TODO(chungmcl): which one do I use? what's the difference?
-  uintptr_t starting_vpn = vpn(EYRIE_UNTRUSTED_START);
-  //uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
-
-  // TODO(chungmcl): find better way to do this
-  int req_pages = 1;
-
-  // TODO(chungmcl): get rid of PTE_U and write a alloc_pages
-  // that doesn't crash without PTE_U
-  int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A | PTE_U;
-  uintptr_t valid_pages;
-  while((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END){
-    valid_pages = test_va_range(starting_vpn, req_pages);
-
-    if(req_pages <= valid_pages){
-      uintptr_t alloc_result = alloc_page(starting_vpn, pte_flags);
-      // if alloc_page fails
-      if (alloc_result == 0) {
-        // TODO(chungmcl): what do we do here?
-      }
-      timing_buffer = alloc_result;
-      break;
-    }
-    else
-      starting_vpn += valid_pages + 1;
-  }
-
-  timing_buffer_size = RISCV_PAGE_SIZE;
-
+  timing_buff_init();
   // chungmcl
 
   debug("eyrie boot finished. drop to the user land ...");
