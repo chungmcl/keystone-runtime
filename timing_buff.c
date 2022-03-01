@@ -8,20 +8,11 @@ int timing_buff_count;
 buf_entry* head;
 buf_entry* tail;
 
-typedef struct {
-  buf_entry* next;
-  uint8_t* dest;
-  size_t data_size;
-  uint8_t data_copy[];  // flexible array member
-} buf_entry;
-
 bool timing_buff_init() {
   /* initialize timing buffer memory */
   // size of page defined by RISCV_PAGE_SIZE in vm_defs.h
 
-  // TODO(chungmcl): which one do I use? what's the difference?
-  uintptr_t starting_vpn = vpn(EYRIE_UNTRUSTED_START);
-  //uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
+  uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
 
   // TODO(chungmcl): get rid of PTE_U and write a alloc_pages
   // that doesn't crash without PTE_U
@@ -32,11 +23,10 @@ bool timing_buff_init() {
   while((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END){
     valid_pages = test_va_range(starting_vpn, req_pages);
 
-    if( req_pages <= valid_pages) {
+    if (req_pages <= valid_pages) {
       uintptr_t alloc_result = alloc_page(starting_vpn, pte_flags);
       // if alloc_page fails
       if (alloc_result == 0) {
-        // TODO(chungmcl): what do we do here?
         return false;
       }
       timing_buff = alloc_result;
@@ -62,6 +52,7 @@ void copy(uint8_t* from, uint8_t* to, size_t size) {
 }
 
 bool timing_buff_push(void* dest, void* data, size_t data_size) {
+  // use memcopy in string.h
   // calculate size of metadata (buf_entry struct) 
   // + size of data (buf_entry flexible array member)
   size_t total_size = sizeof(buf_entry) + data_size;

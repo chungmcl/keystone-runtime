@@ -174,7 +174,14 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   // Adding this line seems to break compilation,
   // (almost sure) but for some reason the compiler doesn't
   // quite show any specific errors?
-  timing_buff_init();
+  if (timing_buff_init()) {
+    // pass 
+  } else {
+    // fail
+    // make SM call to exit()
+    // (also create an issue for SM on SM repo -- we need a way
+    // for an enclave to exit AND say that it can never be run again)
+  }
   // chungmcl
 
   debug("eyrie boot finished. drop to the user land ...");
