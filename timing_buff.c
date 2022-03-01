@@ -93,7 +93,7 @@ bool timing_buff_flush() {
 }
 
 bool timing_buff_remove(void* out) {
-  copy(head->data_copy, out, head->size);
+  copy(head->data_copy, out, head->data_size);
   head = head->next;
   return true;
 }
