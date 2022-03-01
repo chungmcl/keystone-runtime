@@ -18,28 +18,26 @@ typedef struct {
 bool timing_buff_init() {
   /* initialize timing buffer memory */
   // size of page defined by RISCV_PAGE_SIZE in vm_defs.h
-  // PTE flags should be: PTE_R | PTE_W | PTE_D | PTE_A
-  // look at linux_wrap.c mmap for example
 
   // TODO(chungmcl): which one do I use? what's the difference?
   uintptr_t starting_vpn = vpn(EYRIE_UNTRUSTED_START);
   //uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
 
-  // TODO(chungmcl): find better way to do this
-  int req_pages = 1;
-
   // TODO(chungmcl): get rid of PTE_U and write a alloc_pages
   // that doesn't crash without PTE_U
+  // PTE flags should be: PTE_R | PTE_W | PTE_D | PTE_A
   int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A | PTE_U;
   uintptr_t valid_pages;
+  int req_pages = 1;
   while((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END){
     valid_pages = test_va_range(starting_vpn, req_pages);
 
-    if(req_pages <= valid_pages){
+    if( req_pages <= valid_pages) {
       uintptr_t alloc_result = alloc_page(starting_vpn, pte_flags);
       // if alloc_page fails
       if (alloc_result == 0) {
         // TODO(chungmcl): what do we do here?
+        return false;
       }
       timing_buff = alloc_result;
       break;
