@@ -52,9 +52,19 @@ void copy(uint8_t* from, uint8_t* to, size_t size) {
 }
 
 bool timing_buff_push(void* dest, void* data, size_t data_size) {
-  // use memcopy in string.h
+  // TODO(chungmcl): use memcopy in string.h instead!
+  // TODO(chungmcl): calculate when to dequeue and add it as info into buf_entry
   // calculate size of metadata (buf_entry struct) 
   // + size of data (buf_entry flexible array member)
+
+  // TODO(chungmcl): 
+  // - calculate dequeue time, which should 
+  // be two intervals ahead
+  // - SM should return the fuzzied time, not actual time
+  // - If you run out of space, just ask SM to wait until 
+  // next interval, then dequeue the thing (note that
+  // this makes it so that a buffer of even size zero
+  // should still work with timing stuff!)
   size_t total_size = sizeof(buf_entry) + data_size;
   buf_entry* entry_ptr;
 
