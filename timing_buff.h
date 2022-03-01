@@ -5,8 +5,8 @@
 #include "mm.h"
 
 
-typedef struct {
-  buf_entry* next;
+typedef struct buf_entry {
+  struct buf_entry* next;
   uint8_t* dest;
   size_t data_size;
   uint8_t data_copy[];  // flexible array member
