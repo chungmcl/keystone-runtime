@@ -171,11 +171,9 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   csr_write(sstatus, csr_read(sstatus) | 0x6000);
 
   // chungmcl
-  // Adding this line seems to break compilation,
-  // (almost sure) but for some reason the compiler doesn't
-  // quite show any specific errors?
+  // TODO(chungmcl):
   if (timing_buff_init()) {
-    // pass 
+    // pass
   } else {
     // fail
     // make SM call to exit()
