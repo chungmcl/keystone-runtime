@@ -91,7 +91,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   // DEBUGGING: hijack data and data_len to print out debug stuff
   data_len += 1;
   ((char*)data)[data_len - 1] = '2';
-  //((char*)data)[data_len] = "\0";
+  ((char*)data)[data_len] = '\0';
 
   // chungmcl
   uintptr_t buffer_data_start = edge_call_data_ptr();
