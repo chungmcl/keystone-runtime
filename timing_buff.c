@@ -1,7 +1,7 @@
 #include "timing_buff.h"
 
-uint8_t* timing_buff;
-uint8_t* timing_buff_end;
+uintptr_t timing_buff;
+uintptr_t timing_buff_end;
 int timing_buff_size;
 int timing_buff_count;
 
@@ -69,7 +69,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   buf_entry* entry_ptr;
 
   if (tail > head) {
-    if (timing_buff_end - tail >= total_size) {
+    if (timing_buff_end - (uintptr_t)tail >= total_size) {
       entry_ptr = tail;
     } else if (head - timing_buff >= total_size) {
       entry_ptr = timing_buff;
