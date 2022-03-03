@@ -84,13 +84,13 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
 
   timing_buff_push(&edge_call->call_id, &call_id, sizeof(call_id));
   timing_buff_remove();
-  
+
   //print_strace("[runtime] time: %lu \r\n", sbi_get_time());
   //print_strace("[runtime] interval: %lu\r\n", sbi_get_interval_len());
 
   // DEBUGGING: hijack data and data_len to print out debug stuff
   data_len += 1;
-  ((char*)data)[data_len - 1] = "2";
+  ((char*)data)[data_len - 1] = '2';
   //((char*)data)[data_len] = "\0";
 
   // chungmcl
