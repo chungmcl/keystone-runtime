@@ -40,8 +40,8 @@ bool timing_buff_init() {
   timing_buff_size = RISCV_PAGE_SIZE;
   timing_buff_end = timing_buff + timing_buff_size;
   timing_buff_count = 0;
-  head = (buf_entry*)timing_buff;
-  tail = (buf_entry*)timing_buff;
+  head = NULL;
+  tail = NULL;
   return true;
 }
 
@@ -61,26 +61,30 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   size_t total_size = sizeof(buf_entry) + data_size;
   buf_entry* entry_ptr;
 
-  if (tail > head) {
-    if ((buf_entry*)timing_buff_end - tail >= total_size) {
-      entry_ptr = tail;
+  if (timing_buff_count == 0) {
+    entry_ptr = (buf_entry*)timing_buff;
+    head = entry_ptr;
+    tail = entry_ptr;
+  } else if (tail > head) {
+    if ((buf_entry*)timing_buff_end - (tail + sizeof(buf_entry) + tail->data_size) >= total_size) {
+      entry_ptr = (tail + sizeof(buf_entry) + tail->data_size);
     } else if (head - (buf_entry*)timing_buff >= total_size) {
       entry_ptr = (buf_entry*)timing_buff;
     } else return false;
   } else {
-    if (head - tail >= total_size) {
-      entry_ptr = tail;
+    if (head - (tail + sizeof(buf_entry) + tail->data_size) >= total_size) {
+      entry_ptr = (tail + sizeof(buf_entry) + tail->data_size);
     } else return false;
   }
 
-  entry_ptr->next = NULL;
+  entry_ptr->next = head;
   entry_ptr->data_size = data_size;
   entry_ptr->dest = dest;
-  memcpy(entry_ptr->dest, data, data_size);
+  memcpy(entry_ptr->data_copy, data, data_size);
 
   timing_buff_count += 1;
   tail->next = entry_ptr;
-  tail = entry_ptr + total_size;
+  tail = entry_ptr;
   return true;
 }
 
@@ -99,5 +103,6 @@ bool timing_buff_remove() {
   // TODO(chungmcl): get the result of memcpy()?
   memcpy(head->dest, head->data_copy, head->data_size);
   head = head->next;
+  timing_buff_count -= 1;
   return true;
 }
