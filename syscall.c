@@ -35,7 +35,7 @@ uintptr_t dispatch_edgecall_syscall(struct edge_syscall* syscall_data_ptr, size_
    * the right place to put calls */
   struct edge_call* edge_call = (struct edge_call*)shared_buffer;
 
-  //edge_call->call_id = EDGECALL_SYSCALL;
+  edge_call->call_id = EDGECALL_SYSCALL;
 
 
   if(edge_call_setup_call(edge_call, (void*)syscall_data_ptr, data_len) != 0){
@@ -79,7 +79,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
    * dispatch the ocall to host */
 
   // chungmcl
-  edge_call->call_id = call_id;
+  //edge_call->call_id = call_id;
 
   //timing_buff_push(edge_call->call_id, call_id, sizeof(call_id));
 
