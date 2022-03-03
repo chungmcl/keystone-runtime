@@ -45,6 +45,16 @@ uintptr_t
 sbi_pause() {
   return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_PAUSE);
 }
+
+unsigned long
+sbi_get_time() {
+  return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_TIME);
+}
+
+unsigned long
+sbi_get_interval_len() {
+  return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_INTERVAL_LEN);
+}
 // chungmcl
 
 // chungmcl: called by vanilla hello_native
