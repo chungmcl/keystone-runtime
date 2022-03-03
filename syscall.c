@@ -89,9 +89,9 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   //print_strace("[runtime] interval: %lu\r\n", sbi_get_interval_len());
 
   // DEBUGGING: hijack data and data_len to print out debug stuff
-  data_len += 1;
-  ((char*)data)[data_len - 1] = '2';
-  ((char*)data)[data_len] = '\0';
+  //data_len += 1;
+  //((char*)data)[data_len - 1] = '2';
+  //((char*)data)[data_len] = '\0';
 
   // chungmcl
   uintptr_t buffer_data_start = edge_call_data_ptr();
