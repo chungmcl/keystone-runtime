@@ -21,7 +21,7 @@ bool timing_buff_init() {
   int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A | PTE_U;
   uintptr_t valid_pages;
   int req_pages = 1;
-  while((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END){
+  while ((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END) {
     valid_pages = test_va_range(starting_vpn, req_pages);
 
     if (req_pages <= valid_pages) {
@@ -85,7 +85,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
 }
 
 bool timing_buff_flush() {
-  // flush as many possible (how do i know when to stop?)
+  // flush all that are due
   // flush each buf_entry by writing data at data_copy to dest
   // pop mem from data_copy
   // pop buf_entry
