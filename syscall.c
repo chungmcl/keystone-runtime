@@ -10,6 +10,7 @@
 #include "uaccess.h"
 #include "mm.h"
 #include "rt_util.h"
+#include "timing_buff.h"
 
 #include "syscall_nums.h"
 
