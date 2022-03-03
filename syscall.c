@@ -83,7 +83,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   //edge_call->call_id = call_id;
 
   timing_buff_push(&edge_call->call_id, &call_id, sizeof(call_id));
-  timing_buff_remove();
+  //timing_buff_remove();
   print_strace("[runtime] time: %lu \r\n", sbi_get_time());
   print_strace("[runtime] interval: %lu\r\n", sbi_get_interval_len());
 
