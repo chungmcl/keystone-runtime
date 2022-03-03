@@ -1,4 +1,5 @@
 #include "timing_buff.h"
+#include "string.h"  // for memcpy()
 
 uintptr_t timing_buff;
 uintptr_t timing_buff_end;
@@ -44,15 +45,7 @@ bool timing_buff_init() {
   return true;
 }
 
-void copy(uint8_t* from, uint8_t* to, size_t size) {
-  for (uint8_t* ptr = to; ptr < (ptr + size); ptr++) {
-    *ptr = *from;
-    from++;
-  }
-}
-
 bool timing_buff_push(void* dest, void* data, size_t data_size) {
-  // TODO(chungmcl): use memcopy in string.h instead!
   // TODO(chungmcl): calculate when to dequeue and add it as info into buf_entry
   // calculate size of metadata (buf_entry struct) 
   // + size of data (buf_entry flexible array member)
@@ -83,7 +76,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   entry_ptr->next = NULL;
   entry_ptr->data_size = data_size;
   entry_ptr->dest = dest;
-  copy(data, entry_ptr->dest, data_size);
+  memcpy(entry_ptr->dest, data, data_size);
 
   timing_buff_count += 1;
   tail->next = entry_ptr;
@@ -102,8 +95,9 @@ bool timing_buff_flush() {
   return true;  // TODO(chungmcl): properly implement me
 }
 
-bool timing_buff_remove(void* out) {
-  copy(head->data_copy, out, head->data_size);
+bool timing_buff_remove() {
+  // TODO(chungmcl): get the result of memcpy()?
+  memcpy(head->dest, head->data_copy, head->data_size);
   head = head->next;
   return true;
 }

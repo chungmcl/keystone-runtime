@@ -21,6 +21,6 @@ bool timing_buff_push(void* dest, void* data, size_t data_size);
 // during an epoch
 bool timing_buff_flush();
 
-bool timing_buff_remove(void* out);
+bool timing_buff_remove();
 
 #endif  // __TIMING_BUFF_H__
