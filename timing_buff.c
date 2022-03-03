@@ -39,8 +39,8 @@ bool timing_buff_init() {
   timing_buff_size = RISCV_PAGE_SIZE;
   timing_buff_end = timing_buff + timing_buff_size;
   timing_buff_count = 0;
-  head = timing_buff;
-  tail = timing_buff;
+  head = (buf_entry*)timing_buff;
+  tail = (buf_entry*)timing_buff;
   return true;
 }
 
@@ -69,10 +69,10 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   buf_entry* entry_ptr;
 
   if (tail > head) {
-    if (timing_buff_end - (uintptr_t)tail >= total_size) {
+    if ((buf_entry*)timing_buff_end - tail >= total_size) {
       entry_ptr = tail;
-    } else if (head - timing_buff >= total_size) {
-      entry_ptr = timing_buff;
+    } else if (head - (buf_entry*)timing_buff >= total_size) {
+      entry_ptr = (buf_entry*)timing_buff;
     } else return false;
   } else {
     if (head - tail >= total_size) {
