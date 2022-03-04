@@ -79,13 +79,13 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
    * region, calculate the offsets to the argument data, and then
    * dispatch the ocall to host */
 
-  // chungmcl
+  /** chungmcl **/
   //edge_call->call_id = call_id;
 
   timing_buff_push(&edge_call->call_id, &call_id, sizeof(call_id));
   timing_buff_remove();
 
-  // chungmcl
+  /** chungmcl **/
   uintptr_t buffer_data_start = edge_call_data_ptr();
 
   if(data_len > (shared_buffer_size - (buffer_data_start - shared_buffer))){
@@ -94,12 +94,12 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   //TODO safety check on source
   copy_from_user((void*)buffer_data_start, (void*)data, data_len);
 
-  // chungmcl
-  // DEBUGGING: hijack buffer_data_start to print out debug stuff
+  /** chungmcl **/ // DEBUGGING: hijack buffer_data_start to print out debug stuff
   // 11th byte is first byte after "hello world"
   ((char*)buffer_data_start)[11] = ':';
 
-  long num = sbi_get_time();
+  long num = timing_buff_flush();
+  // long num = sbi_get_time();
   // long num = sbi_get_interval_len();
   // long num = 3587;
   // (3587 - (3587 % 1000)) / 1000 % 10 = 3
@@ -116,7 +116,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
     i++;
   }
 
-  // chungmcl
+  /** chungmcl **/
 
   if(edge_call_setup_call(edge_call, (void*)buffer_data_start, data_len) != 0){
     goto ocall_error;

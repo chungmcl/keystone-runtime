@@ -6,8 +6,8 @@ uintptr_t timing_buff_end;
 int timing_buff_size;
 int timing_buff_count;
 
-buf_entry* head;
-buf_entry* tail;
+buff_entry* head;
+buff_entry* tail;
 
 bool timing_buff_init() {
   /* initialize timing buffer memory */
@@ -46,39 +46,33 @@ bool timing_buff_init() {
 }
 
 bool timing_buff_push(void* dest, void* data, size_t data_size) {
-  // TODO(chungmcl): calculate when to dequeue and add it as info into buf_entry
-  // calculate size of metadata (buf_entry struct) 
-  // + size of data (buf_entry flexible array member)
-
-  // TODO(chungmcl): 
-  // - calculate dequeue time, which should 
-  // be two intervals ahead
-  // - SM should return the fuzzied time, not actual time
+  // TODO(chungmcl):
   // - If you run out of space, just ask SM to wait until 
   // next interval, then dequeue the thing (note that
   // this makes it so that a buffer of even size zero
   // should still work with timing stuff!)
-  size_t total_size = sizeof(buf_entry) + data_size;
-  buf_entry* entry_ptr;
+  size_t total_size = sizeof(buff_entry) + data_size;
+  buff_entry* entry_ptr;
 
   if (timing_buff_count == 0) {
-    entry_ptr = (buf_entry*)timing_buff;
+    entry_ptr = (buff_entry*)timing_buff;
     head = entry_ptr;
     tail = entry_ptr;
   } else if (tail > head) {
-    if ((buf_entry*)timing_buff_end - (tail + sizeof(buf_entry) + tail->data_size) >= total_size) {
-      entry_ptr = (tail + sizeof(buf_entry) + tail->data_size);
-    } else if (head - (buf_entry*)timing_buff >= total_size) {
-      entry_ptr = (buf_entry*)timing_buff;
+    if ((buff_entry*)timing_buff_end - (tail + sizeof(buff_entry) + tail->data_size) >= total_size) {
+      entry_ptr = (tail + sizeof(buff_entry) + tail->data_size);
+    } else if (head - (buff_entry*)timing_buff >= total_size) {
+      entry_ptr = (buff_entry*)timing_buff;
     } else return false;
   } else {
-    if (head - (tail + sizeof(buf_entry) + tail->data_size) >= total_size) {
-      entry_ptr = (tail + sizeof(buf_entry) + tail->data_size);
+    if (head - (tail + sizeof(buff_entry) + tail->data_size) >= total_size) {
+      entry_ptr = (tail + sizeof(buff_entry) + tail->data_size);
     } else return false;
   }
 
   entry_ptr->next = head;
   entry_ptr->data_size = data_size;
+  entry_ptr->write_time = sbi_get_time() + 2 * sbi_get_interval_len();
   entry_ptr->dest = dest;
   memcpy(entry_ptr->data_copy, data, data_size);
 
@@ -88,15 +82,19 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   return true;
 }
 
-bool timing_buff_flush() {
-  // flush all that are due
-  // flush each buf_entry by writing data at data_copy to dest
-  // pop mem from data_copy
-  // pop buf_entry
-  // decrement timing_buff_count
-
-
-  return true;  // TODO(chungmcl): properly implement me
+int timing_buff_flush() {
+  unsigned long time = sbi_get_time();
+  buff_entry* curr = head;
+  int count = 0;
+  while (curr != NULL) {
+    if (curr->write_time <= time) {
+      if (timing_buff_remove()) {
+        count += 1;
+      } else return -1;
+    } else break;
+    curr = curr->next;
+  }
+  return count;
 }
 
 bool timing_buff_remove() {
