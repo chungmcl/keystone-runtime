@@ -104,3 +104,7 @@ bool timing_buff_remove() {
   timing_buff_count -= 1;
   return true;
 }
+
+int timing_buff_get_count() {
+  return timing_buff_count;
+}

@@ -80,7 +80,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
    * dispatch the ocall to host */
 
   /** chungmcl **/
-  //edge_call->call_id = call_id;
+  edge_call->call_id = call_id;
   unsigned long a = 1234;
   timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
   a += 1;
@@ -91,11 +91,11 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
   a += 1;
   timing_buff_push(&edge_call->call_id, &call_id, sizeof(call_id));
-  for (int i = 0; i < 200; i++) {
-    sbi_pause();
-  }
+  //for (int i = 0; i < 200; i++) {
+  //  sbi_pause();
+  //}
   //timing_buff_remove();
-  long flush_count = timing_buff_flush();
+  //long flush_count = timing_buff_flush();
 
   /** chungmcl **/
   uintptr_t buffer_data_start = edge_call_data_ptr();
@@ -127,11 +127,12 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
     i++;
   }
 
+  int count = timing_buff_get_count();
   ((char*)buffer_data_start)[hello_world_len + i] = ':';
   hello_world_len += i + 1;
   i = 0;
   for (long q = 100000000000000; q > 0; q /= 10) {
-    long digit = (flush_count - (flush_count % q)) / q % 10;
+    long digit = (count - (count % q)) / q % 10;
     ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
     i++;
   }

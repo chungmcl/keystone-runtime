@@ -27,4 +27,6 @@ int timing_buff_flush();
 // Flush the head of the timing buff
 bool timing_buff_remove();
 
+int timing_buff_get_count();
+
 #endif  // __TIMING_BUFF_H__
