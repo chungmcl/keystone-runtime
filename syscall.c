@@ -83,10 +83,10 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   //edge_call->call_id = call_id;
 
   timing_buff_push(&edge_call->call_id, &call_id, sizeof(call_id));
-  //timing_buff_remove();
   for (int i = 0; i < 200; i++) {
     sbi_pause();
   }
+  timing_buff_remove();
   //long flush_count = timing_buff_flush();
 
   /** chungmcl **/
