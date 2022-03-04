@@ -103,7 +103,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   ((char*)buffer_data_start)[11] = ':';
   
   long time = sbi_get_time();
-  long interval = sbi_get_interval_len();
+  // long interval = sbi_get_interval_len();
   // long num = 3587;
   // (3587 - (3587 % 1000)) / 1000 % 10 = 3
   // (3587 - (3587 % 0100)) / 0100 % 10 = 5
@@ -123,7 +123,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   hello_world_len += i + 1;
   i = 0;
   for (long q = 100000000000000; q > 0; q /= 10) {
-    long digit = (interval - (interval % q)) / q % 10;
+    long digit = (flush_count - (flush_count % q)) / q % 10;
     ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
     i++;
   }
