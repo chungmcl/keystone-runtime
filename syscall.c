@@ -81,11 +81,15 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
 
   /** chungmcl **/
   //edge_call->call_id = call_id;
-  timing_buff_push(&edge_call->call_id, 1234, sizeof(call_id));
-  timing_buff_push(&edge_call->call_id, 2345, sizeof(call_id));
-  timing_buff_push(&edge_call->call_id, 3456, sizeof(call_id));
-  timing_buff_push(&edge_call->call_id, 4567, sizeof(call_id));
-  timing_buff_push(&edge_call->call_id, 5678, sizeof(call_id));
+  unsigned long a = 1234;
+  timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
+  a += 1;
+  timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
+  a += 1;
+  timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
+  a += 1;
+  timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
+  a += 1;
   timing_buff_push(&edge_call->call_id, &call_id, sizeof(call_id));
   for (int i = 0; i < 200; i++) {
     sbi_pause();
