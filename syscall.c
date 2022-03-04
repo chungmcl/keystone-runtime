@@ -88,8 +88,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   //print_strace("[runtime] time: %lu \r\n", sbi_get_time());
   //print_strace("[runtime] interval: %lu\r\n", sbi_get_interval_len());
 
-  // DEBUGGING: hijack data and data_len to print out debug stuff
-  ((char*)data)[11] = '2';
+  
 
   // chungmcl
   uintptr_t buffer_data_start = edge_call_data_ptr();
@@ -99,6 +98,12 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   }
   //TODO safety check on source
   copy_from_user((void*)buffer_data_start, (void*)data, data_len);
+
+  // chungmcl
+  // DEBUGGING: hijack data and data_len to print out debug stuff
+  ((char*)buffer_data_start)[11] = '2';
+
+  // chungmcl
 
   if(edge_call_setup_call(edge_call, (void*)buffer_data_start, data_len) != 0){
     goto ocall_error;
