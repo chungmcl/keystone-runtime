@@ -128,6 +128,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   }
 
   int count = timing_buff_get_count();
+  
   ((char*)buffer_data_start)[hello_world_len + i] = ':';
   hello_world_len += i + 1;
   i = 0;
