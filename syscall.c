@@ -104,7 +104,8 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   // 11th byte is first byte after "hello world"
   ((char*)buffer_data_start)[11] = ':';
 
-  long num = sbi_get_interval_len();
+  long num = sbi_get_time();
+  // long num = sbi_get_interval_len();
   // long num = 3587;
   // (3587 - (3587 % 1000)) / 1000 % 10 = 3
   // (3587 - (3587 % 0100)) / 0100 % 10 = 5
