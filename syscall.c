@@ -84,10 +84,10 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
 
   timing_buff_push(&edge_call->call_id, &call_id, sizeof(call_id));
   //timing_buff_remove();
-  for (int i = 0; i < 500; i++) {
+  for (int i = 0; i < 200; i++) {
     sbi_pause();
   }
-  long num = timing_buff_flush();
+  long flush_count = timing_buff_flush();
 
   /** chungmcl **/
   uintptr_t buffer_data_start = edge_call_data_ptr();
@@ -102,8 +102,8 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   // 11th byte is first byte after "hello world"
   ((char*)buffer_data_start)[11] = ':';
   
-  // long num = sbi_get_time();
-  // long num = sbi_get_interval_len();
+  long time = sbi_get_time();
+  long interval = sbi_get_interval_len();
   // long num = 3587;
   // (3587 - (3587 % 1000)) / 1000 % 10 = 3
   // (3587 - (3587 % 0100)) / 0100 % 10 = 5
@@ -114,7 +114,16 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   int hello_world_len = 12;
   int i = 0;
   for (long q = 100000000000000; q > 0; q /= 10) {
-    long digit = (num - (num % q)) / q % 10;
+    long digit = (time - (time % q)) / q % 10;
+    ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
+    i++;
+  }
+
+  ((char*)buffer_data_start)[hello_world_len + i] = ':';
+  hello_world_len += i + 1;
+  i = 0;
+  for (long q = 100000000000000; q > 0; q /= 10) {
+    long digit = (interval - (interval % q)) / q % 10;
     ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
     i++;
   }

@@ -87,7 +87,7 @@ int timing_buff_flush() {
   buff_entry* curr = head;
   int count = 0;
   while (curr != NULL) {
-    if (curr->write_time <= time) {
+    if (time >= curr->write_time) {
       if (timing_buff_remove()) {
         count += 1;
       } else return -1;
