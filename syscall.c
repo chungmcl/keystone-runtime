@@ -101,12 +101,24 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
 
   // chungmcl
   // DEBUGGING: hijack buffer_data_start to print out debug stuff
-  //if (call_id == RUNTIME_SYSCALL_OCALL) {
   // 11th byte is first byte after "hello world"
   ((char*)buffer_data_start)[11] = ':';
-  long x = 317;
-  ((long*)buffer_data_start)[12] = x;
-  //}
+
+  long num = 3587;
+  // (3587 - (3587 % 1000)) / 1000 % 10 = 3
+  // (3587 - (3587 % 0100)) / 0100 % 10 = 5
+  // (3587 - (3587 % 0010)) / 0010 % 10 = 8
+  // (3587 - (3587 % 0001)) / 0001 % 10 = 7
+
+  int ascii_offset = 48;
+  int hello_world_len = 12;
+  int i = 0;
+  for (long q = 0; q > 100000; q /= 10) {
+    long digit = (num - (num % q)) / q % 10;
+    ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
+    i++;
+  }
+
   // chungmcl
 
   if(edge_call_setup_call(edge_call, (void*)buffer_data_start, data_len) != 0){
