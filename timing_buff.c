@@ -86,7 +86,7 @@ int timing_buff_flush() {
   unsigned long time = sbi_get_time();
   buff_entry* curr = head;
   int count = 0;
-  while (curr != NULL) {
+  for (int i = 0; i < timing_buff_count; i++) {
     if (time >= curr->write_time) {
       if (timing_buff_remove()) {
         count += 1;
