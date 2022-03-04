@@ -86,8 +86,8 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   for (int i = 0; i < 200; i++) {
     sbi_pause();
   }
-  timing_buff_remove();
-  //long flush_count = timing_buff_flush();
+  //timing_buff_remove();
+  long flush_count = timing_buff_flush();
 
   /** chungmcl **/
   uintptr_t buffer_data_start = edge_call_data_ptr();
