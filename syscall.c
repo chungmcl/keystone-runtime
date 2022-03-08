@@ -117,7 +117,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   int hello_world_len = 12;
   int i = 0;
   for (long q = 100000000000000; q > 0; q /= 10) {
-    long digit = time % q / 10;
+    long digit = time / q % 10;
     ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
     i++;
   }
