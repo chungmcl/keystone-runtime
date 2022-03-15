@@ -133,8 +133,14 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
     i++;
   }
 
-  debug("%s\n", "test bruh debug");
+  // for this to work, make sure to change
+  // set(eyrie_plugins "freemem")
+  // to
+  // set(eyrie_plugins "freemem strace_debug")
+  // in the CMakeLists.txt of whatever app you're
+  // building
   print_strace("%s\n", "test bruh strace");
+  print_strace("time test: %i\n", time);
   /** chungmcl **/
 
   if(edge_call_setup_call(edge_call, (void*)buffer_data_start, data_len) != 0){
