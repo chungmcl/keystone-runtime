@@ -133,7 +133,8 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
     i++;
   }
 
-  debug("%s\n", "test bruh");
+  debug("%s\n", "test bruh debug");
+  print_strace("%s\n", "test bruh strace");
   /** chungmcl **/
 
   if(edge_call_setup_call(edge_call, (void*)buffer_data_start, data_len) != 0){
