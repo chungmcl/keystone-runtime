@@ -4,6 +4,14 @@
 #include "vm.h"
 #include "mm.h"
 
+// TODO(chungmcl): Write a test
+// Make a host app that
+// forks into two threads --
+// one thread makes eapp do stuff (write, etc.)
+// other thread watches over shared mem
+// to see that stuff is written as expected
+// at the right time
+
 
 typedef struct buff_entry {
   struct buff_entry* next;

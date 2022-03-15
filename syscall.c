@@ -133,6 +133,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
     i++;
   }
 
+  debug("%s\n", "test bruh");
   /** chungmcl **/
 
   if(edge_call_setup_call(edge_call, (void*)buffer_data_start, data_len) != 0){
@@ -189,6 +190,9 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 
   return copy_to_user(dst, (void*)src_ptr, size);
 }
+
+// TODO(chungmcl): syscall to write to shared memory
+// consider making it a build option?
 
 void init_edge_internals(){
   edge_call_init_internals(shared_buffer, shared_buffer_size);
