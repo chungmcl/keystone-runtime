@@ -1,5 +1,6 @@
 #include "timing_buff.h"
 #include "string.h"  // for memcpy()
+#include "vm.h"
 #include "mm.h"
 
 uintptr_t timing_buff;
