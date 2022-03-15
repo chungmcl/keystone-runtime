@@ -1,7 +1,7 @@
 #ifndef __TIMING_BUFF_H__
 #define __TIMING_BUFF_H__
 
-// #include "vm.h"
+#include "vm.h"
 // #include "mm.h"
 
 // TODO(chungmcl): Write a test
