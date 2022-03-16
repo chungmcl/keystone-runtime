@@ -91,6 +91,8 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
   a += 1;
   timing_buff_push(&edge_call->call_id, &call_id, sizeof(call_id));
+  
+  debug_timing_buff();
   //for (int i = 0; i < 200; i++) {
   //  sbi_pause();
   //}

@@ -51,7 +51,7 @@ bool timing_buff_init() {
 }
 
 bool timing_buff_push(void* dest, void* data, size_t data_size) {
-  print_strace("Data: %lu \n", (unsigned long*)data);
+  print_strace("Data: %lu \n", *((unsigned long*)data));
   // TODO(chungmcl):
   // - If you run out of space, just ask SM to wait until 
   // next interval, then dequeue the thing (note that
@@ -127,4 +127,17 @@ bool timing_buff_remove() {
 
 int timing_buff_get_count() {
   return timing_buff_count;
+}
+
+void debug_timing_buff() {
+  buff_entry* curr = head;
+  for (int i = 0; i < timing_buff_count; i++) {
+    print_strace("curr->next: %p\n", (void*)curr->next);
+    print_strace("curr->dest: %p\n", (void*)curr->dest);
+    print_strace("curr->write_time: %lu\n", (void*)curr->write_time);
+    print_strace("curr->data_size: %zu\n", (void*)curr->data_size);
+    print_strace("curr->data_copy: %lu\n", (unsigned long*)curr->data_copy);
+    print_strace("\n");
+    head = head->next;
+  }
 }

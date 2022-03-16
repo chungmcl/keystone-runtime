@@ -37,4 +37,6 @@ bool timing_buff_remove();
 
 int timing_buff_get_count();
 
+void debug_timing_buff();
+
 #endif  // __TIMING_BUFF_H__
