@@ -91,8 +91,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   print_strace("Write Time: %lu \n", entry_ptr->write_time);
 
   entry_ptr->dest = dest;
-  memcpy(&entry_ptr->data_copy, data, data_size);
-  *entry_ptr->data_copy = 69;
+  memcpy(entry_ptr->data_copy, data, data_size);
 
   timing_buff_count += 1;
   tail->next = entry_ptr;
