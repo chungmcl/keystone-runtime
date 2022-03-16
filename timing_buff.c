@@ -91,7 +91,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   print_strace("Write Time: %lu \n", entry_ptr->write_time);
 
   entry_ptr->dest = dest;
-  memcpy(entry_ptr->data_copy, data, data_size);
+  memcpy(&entry_ptr->data_copy, data, data_size);
 
   timing_buff_count += 1;
   tail->next = entry_ptr;
@@ -132,6 +132,7 @@ int timing_buff_get_count() {
 void debug_timing_buff() {
   buff_entry* curr = head;
   for (int i = 0; i < timing_buff_count; i++) {
+    print_strace("Element #: %i\n", i);
     print_strace("curr->next: %p\n", (void*)curr->next);
     print_strace("curr->dest: %p\n", (void*)curr->dest);
     print_strace("curr->write_time: %lu\n", (void*)curr->write_time);

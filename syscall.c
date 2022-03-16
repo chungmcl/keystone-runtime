@@ -93,6 +93,8 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   timing_buff_push(&edge_call->call_id, &call_id, sizeof(call_id));
   
   debug_timing_buff();
+  int count = timing_buff_get_count();
+  print_strace("get_count(): %i\n", count);
   //for (int i = 0; i < 200; i++) {
   //  sbi_pause();
   //}
