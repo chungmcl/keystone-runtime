@@ -144,7 +144,7 @@ void debug_timing_buff() {
     print_strace("curr->dest: %p\n", (void*)curr->dest);
     print_strace("curr->write_time: %lu\n", curr->write_time);
     print_strace("curr->data_size: %zu\n", curr->data_size);
-    print_strace("curr->data_copy: %lu\n", curr->data_copy);
+    print_strace("curr->data_copy: %lu\n", *curr->data_copy);
     print_strace("\n");
     curr = curr->next;
   }
