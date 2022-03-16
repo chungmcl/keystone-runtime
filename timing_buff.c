@@ -3,6 +3,9 @@
 #include "vm.h"
 #include "mm.h"
 
+// TODO(chungmcl): REMOVE ME! For debugging (print_strace() calls)
+#include "syscall.h"
+
 uintptr_t timing_buff;
 uintptr_t timing_buff_end;
 int timing_buff_size;
@@ -48,6 +51,7 @@ bool timing_buff_init() {
 }
 
 bool timing_buff_push(void* dest, void* data, size_t data_size) {
+  print_strace("Data: %lu \n", (unsigned long*)data);
   // TODO(chungmcl):
   // - If you run out of space, just ask SM to wait until 
   // next interval, then dequeue the thing (note that
@@ -57,30 +61,44 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   buff_entry* entry_ptr;
 
   if (timing_buff_count == 0) {
+    print_strace("timing_buff_count == 0 \n");
     entry_ptr = (buff_entry*)timing_buff;
     head = entry_ptr;
     tail = entry_ptr;
   } else if (tail > head) {
+    print_strace("tail > head \n");
     if ((buff_entry*)timing_buff_end - (tail + sizeof(buff_entry) + tail->data_size) >= total_size) {
+      print_strace("space available between timing_buff_end and tail \n");
       entry_ptr = (tail + sizeof(buff_entry) + tail->data_size);
     } else if (head - (buff_entry*)timing_buff >= total_size) {
+      print_strace("space not available between timing_buff_end and tail; use space between head and timing_buff start \n");
       entry_ptr = (buff_entry*)timing_buff;
     } else return false;
   } else {
+    print_strace("tail <= head \n");
     if (head - (tail + sizeof(buff_entry) + tail->data_size) >= total_size) {
+      print_strace("space available between head and tail \n");
       entry_ptr = (tail + sizeof(buff_entry) + tail->data_size);
     } else return false;
   }
 
+  unsigned long time = sbi_get_time();
   entry_ptr->next = head;
   entry_ptr->data_size = data_size;
-  entry_ptr->write_time = sbi_get_time() + 2 * sbi_get_interval_len();
+  entry_ptr->write_time = time + 2 * sbi_get_interval_len();
+
+  print_strace("Time: %lu \n", time);
+  print_strace("Write Time: %lu \n", entry_ptr->write_time);
+
   entry_ptr->dest = dest;
   memcpy(entry_ptr->data_copy, data, data_size);
 
   timing_buff_count += 1;
   tail->next = entry_ptr;
   tail = entry_ptr;
+
+  print_strace("\n");
+
   return true;
 }
 

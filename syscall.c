@@ -81,7 +81,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
 
   /** chungmcl **/
   edge_call->call_id = call_id;
-  unsigned long a = 1234;
+  unsigned long a = 1;
   timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
   a += 1;
   timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
@@ -108,30 +108,30 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
 
   /** chungmcl **/ // DEBUGGING: hijack buffer_data_start to print out debug stuff
   // 11th byte is first byte after "hello world"
-  ((char*)buffer_data_start)[11] = ':';
+  // ((char*)buffer_data_start)[11] = ':';
   
-  long time = sbi_get_time();
+  // long time = sbi_get_time();
   // long interval = sbi_get_interval_len();
 
-  int ascii_offset = 48;
-  int hello_world_len = 12;
-  int i = 0;
-  for (long q = 100000000000000; q > 0; q /= 10) {
-    long digit = time / q % 10;
-    ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
-    i++;
-  }
+  // int ascii_offset = 48;
+  // int hello_world_len = 12;
+  // int i = 0;
+  // for (long q = 100000000000000; q > 0; q /= 10) {
+  //   long digit = time / q % 10;
+  //   ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
+  //   i++;
+  // }
 
-  int count = timing_buff_get_count();
-  
-  ((char*)buffer_data_start)[hello_world_len + i] = ':';
-  hello_world_len += i + 1;
-  i = 0;
-  for (long q = 100000000000000; q > 0; q /= 10) {
-    long digit = count / q % 10;
-    ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
-    i++;
-  }
+  // int count = timing_buff_get_count();
+  // 
+  // ((char*)buffer_data_start)[hello_world_len + i] = ':';
+  // hello_world_len += i + 1;
+  // i = 0;
+  // for (long q = 100000000000000; q > 0; q /= 10) {
+  //   long digit = count / q % 10;
+  //   ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
+  //   i++;
+  // }
 
   // for this to work, make sure to change
   // set(eyrie_plugins "freemem")
@@ -139,8 +139,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   // set(eyrie_plugins "freemem strace_debug")
   // in the CMakeLists.txt of whatever app you're
   // building
-  print_strace("%s\n", "test bruh strace");
-  print_strace("time test: %i\n", time);
+  // print_strace("%s\n", "test bruh strace");
   /** chungmcl **/
 
   if(edge_call_setup_call(edge_call, (void*)buffer_data_start, data_len) != 0){
