@@ -92,7 +92,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
 
   entry_ptr->dest = dest;
   memcpy(&entry_ptr->data_copy, data, data_size);
-  entry->data_copy = 69;
+  *entry_ptr->data_copy = 69;
 
   timing_buff_count += 1;
   tail->next = entry_ptr;
