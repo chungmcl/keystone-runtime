@@ -142,6 +142,6 @@ void debug_timing_buff() {
     print_strace("curr->data_size: %zu\n", curr->data_size);
     print_strace("curr->data_copy: %lu\n", curr->data_copy);
     print_strace("\n");
-    head = head->next;
+    curr = curr->next;
   }
 }
