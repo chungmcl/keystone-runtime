@@ -96,6 +96,9 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   timing_buff_count += 1;
   tail->next = entry_ptr;
   tail = entry_ptr;
+  if (timing_buff_count == 0) {
+    head = tail;
+  }
 
   print_strace("\n");
 
