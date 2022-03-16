@@ -72,7 +72,6 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
       print_strace("- timing_buff: %p\n", timing_buff);
       print_strace("- timing_buff size: %lu\n", timing_buff_size);
       print_strace("- timing_buff_end: %p\n", (buff_entry*)timing_buff_end);
-      print_strace("- timing_buff_end (void*): %p\n", timing_buff_end);
       print_strace("- start: %p\n", tail + sizeof(buff_entry) + tail->data_size);
       entry_ptr = (tail + sizeof(buff_entry) + tail->data_size);
     } else if (head - (buff_entry*)timing_buff >= total_size) {
@@ -80,6 +79,8 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
       entry_ptr = (buff_entry*)timing_buff;
     } else {
       print_strace("Add failed\n\n");
+      print_strace("expr: %lu\n", (buff_entry*)timing_buff_end - (tail + sizeof(buff_entry) + tail->data_size));
+      print_strace("total_size: %lu\n", total_size);
       return false;
     }
   } else {
