@@ -80,7 +80,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
       print_strace("space not available between timing_buff_end and tail; use space between head and timing_buff start\n");
       entry_ptr = (buff_entry*)timing_buff;
     } else {
-      print_strace("Add failed\n\n");
+      print_strace("Add failed\n");
       print_strace("expr: %lu\n", (buff_entry*)timing_buff_end - (tail + sizeof(buff_entry) + tail->data_size));
       print_strace("total_size: %lu\n", total_size);
       print_strace("- timing_buff size: %lu\n", timing_buff_size);
@@ -89,6 +89,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
       print_strace("- head: %p\n", head);
       print_strace("- tail: %p\n", tail);
       print_strace("- tail + size: %p\n", tail + sizeof(buff_entry) + tail->data_size);
+      print_strace("\n");
       return false;
     }
   } else {
