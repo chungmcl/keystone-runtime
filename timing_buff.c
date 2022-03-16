@@ -68,10 +68,15 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   } else if (tail > head) {
     print_strace("tail > head \n");
     if ((buff_entry*)timing_buff_end - (tail + sizeof(buff_entry) + tail->data_size) >= total_size) {
-      print_strace("space available between timing_buff_end and tail \n");
+      print_strace("space available between timing_buff_end and tail\n");
+      print_strace("- timing_buff: %p\n", timing_buff);
+      print_strace("- timing_buff size: %lu\n", timing_buff_size);
+      print_strace("- timing_buff_end: %p\n", (buff_entry*)timing_buff_end);
+      print_strace("- timing_buff_end (void*): %p\n", timing_buff_end);
+      print_strace("- start: %p\n", tail + sizeof(buff_entry) + tail->data_size);
       entry_ptr = (tail + sizeof(buff_entry) + tail->data_size);
     } else if (head - (buff_entry*)timing_buff >= total_size) {
-      print_strace("space not available between timing_buff_end and tail; use space between head and timing_buff start \n");
+      print_strace("space not available between timing_buff_end and tail; use space between head and timing_buff start\n");
       entry_ptr = (buff_entry*)timing_buff;
     } else {
       print_strace("Add failed\n\n");
@@ -140,9 +145,10 @@ int timing_buff_get_count() {
 
 void debug_timing_buff() {
   buff_entry* curr = head;
+  print_strace("-------------------------------------------------------------------\n");
   print_strace("timing_buff: %p\n", (void*)timing_buff);
   print_strace("Head: %p\n", (void*)head);
-  print_strace("Tail: %p\n", (void*)tail);
+  print_strace("Tail: %p\n\n", (void*)tail);
   for (int i = 0; i < timing_buff_count; i++) {
     print_strace("Element #: %i\n", i);
     print_strace("curr->next: %p\n", (void*)curr->next);
