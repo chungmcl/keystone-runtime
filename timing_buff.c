@@ -58,6 +58,8 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   // this makes it so that a buffer of even size zero
   // should still work with timing stuff!)
   size_t total_size = sizeof(buff_entry) + data_size;
+  print_strace("sizeof(buff_entry): %lu\n", sizeof(buff_entry));
+  print_strace("data_size: %lu\n", data_size);
   buff_entry* entry_ptr;
 
   if (timing_buff_count == 0) {
@@ -67,6 +69,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
     tail = entry_ptr;
   } else if (tail > head) {
     print_strace("tail > head \n");
+    // sizeof(buff_entry) + tail->data_size is 1280 bytes for some reason?
     if ((buff_entry*)timing_buff_end - (tail + sizeof(buff_entry) + tail->data_size) >= total_size) {
       print_strace("space available between timing_buff_end and tail\n");
       print_strace("- timing_buff size: %lu\n", timing_buff_size);
