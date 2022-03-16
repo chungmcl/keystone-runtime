@@ -82,15 +82,15 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   /** chungmcl **/
   edge_call->call_id = call_id;
   unsigned long a = 1;
-  timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
+  timing_buff_push(&edge_call->call_id, &a, sizeof(unsigned long));
   a += 1;
-  timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
+  timing_buff_push(&edge_call->call_id, &a, sizeof(unsigned long));
   a += 1;
-  timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
+  timing_buff_push(&edge_call->call_id, &a, sizeof(unsigned long));
   a += 1;
-  timing_buff_push(&edge_call->call_id, &a, sizeof(call_id));
+  timing_buff_push(&edge_call->call_id, &a, sizeof(unsigned long));
   a += 1;
-  timing_buff_push(&edge_call->call_id, &call_id, sizeof(call_id));
+  timing_buff_push(&edge_call->call_id, &call_id, sizeof(unsigned long));
   
   debug_timing_buff();
   int count = timing_buff_get_count();
