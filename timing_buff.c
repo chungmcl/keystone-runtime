@@ -65,16 +65,16 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
     head = entry_ptr;
     tail = entry_ptr;
   } else if (tail > head) {
-    if ((buff_entry*)timing_buff_end - (((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size) >= add_size) {
-      entry_ptr = (((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size);
+    if ((size_t)((buff_entry*)timing_buff_end - (((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size)) >= add_size) {
+      entry_ptr = (buff_entry*)(((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size);
     } else if (head - (buff_entry*)timing_buff >= add_size) {
       entry_ptr = (buff_entry*)timing_buff;
     } else {
       return false;
     }
   } else {
-    if (head - (((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size) >= add_size) {
-      entry_ptr = ((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size;
+    if ((size_t)(head - (((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size)) >= add_size) {
+      entry_ptr = (buff_entry*)(((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size);
     } else {
       return false;
     }
