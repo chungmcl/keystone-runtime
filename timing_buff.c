@@ -78,7 +78,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
       print_strace("- head: %p\n", head);
       print_strace("- tail: %p\n", tail);
       print_strace("- tail + size: %p\n", tail + sizeof(buff_entry) + tail->data_size);
-      entry_ptr = (tail + sizeof(buff_entry) + tail->data_size);
+      entry_ptr = (tail + sizeof(buff_entry) + tail->data_size) + 1;
     } else if (head - (buff_entry*)timing_buff >= total_size) {
       print_strace("space not available between timing_buff_end and tail; use space between head and timing_buff start\n");
       entry_ptr = (buff_entry*)timing_buff;
