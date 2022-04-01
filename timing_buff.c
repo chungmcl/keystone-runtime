@@ -58,27 +58,34 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   // should still work with timing stuff!)
   size_t add_size = sizeof(buff_entry) + data_size;
 
+  uintptr_t head_raw = (uintptr_t)head;
+  uintptr_t tail_raw = (uintptr_t)tail;
+
   buff_entry* entry_ptr;
 
   if (timing_buff_count == 0) {
     entry_ptr = (buff_entry*)timing_buff;
     head = entry_ptr;
     tail = entry_ptr;
-  } else if (tail > head) {
-    if ((size_t)((buff_entry*)timing_buff_end - (((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size)) >= add_size) {
-      entry_ptr = (buff_entry*)(((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size);
-    } else if (head - (buff_entry*)timing_buff >= add_size) {
-      entry_ptr = (buff_entry*)timing_buff;
-    } else {
-      return false;
-    }
   } else {
-    if ((size_t)(head - (((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size)) >= add_size) {
-      entry_ptr = (buff_entry*)(((uintptr_t)tail) + sizeof(buff_entry) + tail->data_size);
+    uintptr_t next_raw = tail_raw + sizeof(buff_entry) + tail->data_size;
+    if (tail > head) {
+      if ((size_t)(timing_buff_end - next_raw) >= add_size) {
+        entry_ptr = (buff_entry*)next_raw;
+      } else if ((size_t)((uintptr_t)head - timing_buff) >= add_size) {
+        entry_ptr = (buff_entry*)timing_buff;
+      } else {
+        return false;
+      }
     } else {
-      return false;
+      if ((size_t)(head - next_raw) >= add_size) {
+        entry_ptr = (buff_entry*)next_raw;
+      } else {
+        return false;
+      }
     }
   }
+  
 
   unsigned long time = sbi_get_time();
   entry_ptr->next = head;
