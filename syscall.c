@@ -82,7 +82,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   /** chungmcl **/
   edge_call->call_id = call_id;
 
-  unsigned long long a = 0;
+  unsigned int a = 20;
   timing_buff_push(&edge_call->call_id, &a, sizeof(unsigned long));
 
   a += 1;
