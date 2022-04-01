@@ -58,9 +58,6 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   // should still work with timing stuff!)
   size_t add_size = sizeof(buff_entry) + data_size;
 
-  uintptr_t head_raw = (uintptr_t)head;
-  uintptr_t tail_raw = (uintptr_t)tail;
-
   buff_entry* entry_ptr;
 
   if (timing_buff_count == 0) {
@@ -68,17 +65,18 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
     head = entry_ptr;
     tail = entry_ptr;
   } else {
-    uintptr_t next_raw = tail_raw + sizeof(buff_entry) + tail->data_size;
+    uintptr_t head_raw = (uintptr_t)head;
+    uintptr_t next_raw = (uintptr_t)tail + sizeof(buff_entry) + tail->data_size;
     if (tail > head) {
       if ((size_t)(timing_buff_end - next_raw) >= add_size) {
         entry_ptr = (buff_entry*)next_raw;
-      } else if ((size_t)((uintptr_t)head - timing_buff) >= add_size) {
+      } else if ((size_t)(head_raw - timing_buff) >= add_size) {
         entry_ptr = (buff_entry*)timing_buff;
       } else {
         return false;
       }
     } else {
-      if ((size_t)(head - next_raw) >= add_size) {
+      if ((size_t)(head_raw - next_raw) >= add_size) {
         entry_ptr = (buff_entry*)next_raw;
       } else {
         return false;
