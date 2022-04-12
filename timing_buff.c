@@ -69,14 +69,20 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
     uintptr_t next_raw = (uintptr_t)tail + sizeof(buff_entry) + tail->data_size;
     if (tail > head) {
       if ((size_t)(timing_buff_end - next_raw) >= add_size) {
+        //        head <------- [USED SPACE] -------> tail <---- [FREE SPACE] ---->
+        // start ~~^                                                         end ~~^
         entry_ptr = (buff_entry*)next_raw;
       } else if ((size_t)(head_raw - timing_buff) >= add_size) {
+        //          <------- [FREE SPACE] -------> head <------ [USED SPACE] ------> tail 
+        // start ~~^                                                               end ~~^
         entry_ptr = (buff_entry*)timing_buff;
       } else {
         return false;
       }
     } else {
       if ((size_t)(head_raw - next_raw) >= add_size) {
+        //          |---- [USED SPACE] ----> tail <---- [FREE SPACE] ----> head <---- [USED SPACE] ----|
+        // start ~~^                                                                              end ~~^
         entry_ptr = (buff_entry*)next_raw;
       } else {
         return false;
@@ -120,11 +126,12 @@ int timing_buff_flush() {
 }
 
 bool timing_buff_remove() {
-  // TODO(chungmcl): get the result of memcpy()?
-  memcpy(head->dest, head->data_copy, head->data_size);
-  head = head->next;
-  timing_buff_count -= 1;
-  return true;
+  if (timing_buff_count > 0) {
+    memcpy(head->dest, head->data_copy, head->data_size);
+    head = head->next;
+    timing_buff_count -= 1;
+    return true;
+  } else return false;
 }
 
 int timing_buff_get_count() {
