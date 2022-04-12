@@ -90,7 +90,6 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
     }
   }
   
-
   unsigned long time = sbi_get_time();
   entry_ptr->next = head;
   entry_ptr->data_size = data_size;
@@ -98,7 +97,6 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
 
   entry_ptr->dest = dest;
   memcpy(entry_ptr->data_copy, data, data_size);
-
 
   timing_buff_count += 1;
   tail->next = entry_ptr;
@@ -114,12 +112,13 @@ int timing_buff_flush() {
   unsigned long time = sbi_get_time();
   buff_entry* curr = head;
   int count = 0;
-  for (int i = 0; i < timing_buff_count; i++) {
+  int timing_buff_count_copy = timing_buff_count;
+  for (int i = 0; i < timing_buff_count_copy; i++) {
     if (time >= curr->write_time) {
       if (timing_buff_remove()) {
         count += 1;
       } else return -1;
-    } else break;
+    } else return count;
     curr = curr->next;
   }
   return count;
