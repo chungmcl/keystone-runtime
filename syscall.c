@@ -102,11 +102,12 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   print_strace("get_count(): %i\n", count);
   // timing_buff_remove();
 
-  //for (int i = 0; i < 200; i++) {
-  //  sbi_pause();
-  //}
-  //timing_buff_remove();
+  for (int i = 0; i < 200; i++) {
+    sbi_pause();
+  }
+  timing_buff_remove();
   //long flush_count = timing_buff_flush();
+  print_strace("timing_buff_flush(): %i\n", timing_buff_flush());
 
   /** chungmcl **/
   uintptr_t buffer_data_start = edge_call_data_ptr();
