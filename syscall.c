@@ -209,8 +209,17 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
   return copy_to_user(dst, (void*)src_ptr, size);
 }
 
-// TODO(chungmcl): syscall to write to shared memory
+// TODO(chungmcl): syscall to copy/write to shared memory
 // consider making it a build option?
+handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
+  uintptr_t dst_ptr;
+  if(edge_call_get_ptr_from_offset(offset, size,
+				   &dst_ptr) != 0){
+    return 1;
+  }
+
+  memcpy(dst_ptr, src, size);
+}
 
 void init_edge_internals(){
   edge_call_init_internals(shared_buffer, shared_buffer_size);
@@ -254,6 +263,10 @@ void handle_syscall(struct encl_ctx* ctx)
   case(RUNTIME_SYSCALL_SHAREDCOPY):
     ret = handle_copy_from_shared((void*)arg0, arg1, arg2);
     break;
+  // chungmcl
+  case(RUNTIME_SYSCALL_SHAREDWRITE):
+    ret = handle_write_to_shared((void*)arg0, arg1, arg2);
+  // chungmcl
   case(RUNTIME_SYSCALL_ATTEST_ENCLAVE):;
     copy_from_user((void*)rt_copy_buffer_2, (void*)arg1, arg2);
 
