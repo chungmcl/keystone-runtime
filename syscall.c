@@ -211,14 +211,15 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 
 // TODO(chungmcl): syscall to copy/write to shared memory
 // consider making it a build option?
-handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
+bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   uintptr_t dst_ptr;
   if(edge_call_get_ptr_from_offset(offset, size,
 				   &dst_ptr) != 0){
-    return 1;
+    return false;
   }
 
-  memcpy(dst_ptr, src, size);
+  memcpy((void*)dst_ptr, src, size);
+  return true;
 }
 
 void init_edge_internals(){
