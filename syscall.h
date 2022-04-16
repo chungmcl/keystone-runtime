@@ -15,6 +15,9 @@
 #define RUNTIME_SYSCALL_SHAREDCOPY          1002
 #define RUNTIME_SYSCALL_ATTEST_ENCLAVE      1003
 #define RUNTIME_SYSCALL_GET_SEALING_KEY     1004
+// chungmcl
+#define RUNTIME_SYSCALL_SHAREDWRITE         1005
+// chungmcl
 #define RUNTIME_SYSCALL_EXIT                1101
 
 void handle_syscall(struct encl_ctx* ctx); // (3), (4) [dispatch_edgecall_ocall() above handle_syscall() @ :64]
