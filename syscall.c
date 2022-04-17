@@ -79,37 +79,38 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
    * region, calculate the offsets to the argument data, and then
    * dispatch the ocall to host */
 
-  /** chungmcl **/
   edge_call->call_id = call_id;
 
-  unsigned int a = 18;
-  timing_buff_push(&edge_call->call_id, &a, sizeof(a));
-
-  a += 1;
-  timing_buff_push(&edge_call->call_id, &a, sizeof(a));
-
-  a += 1;
-  timing_buff_push(&edge_call->call_id, &a, sizeof(a));
-
-  a += 1;
-  timing_buff_push(&edge_call->call_id, &a, sizeof(a));
-
-  a += 1;
-  timing_buff_push(&edge_call->call_id, &a, sizeof(a));
-  
-  debug_timing_buff();
-  int count = timing_buff_get_count();
-  print_strace("get_count(): %i\n", count);
+  // /** chungmcl **/
+// 
+  // unsigned int a = 18;
+  // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
+// 
+  // a += 1;
+  // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
+// 
+  // a += 1;
+  // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
+// 
+  // a += 1;
+  // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
+// 
+  // a += 1;
+  // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
+  // 
+  // debug_timing_buff();
+  // int count = timing_buff_get_count();
+  // print_strace("get_count(): %i\n", count);
+  // // timing_buff_remove();
+// 
+  // for (int i = 0; i < 200; i++) {
+  //   sbi_pause();
+  // }
   // timing_buff_remove();
-
-  for (int i = 0; i < 200; i++) {
-    sbi_pause();
-  }
-  timing_buff_remove();
-  //long flush_count = timing_buff_flush();
-  print_strace("timing_buff_flush(): %i\n", timing_buff_flush());
-
-  /** chungmcl **/
+  // //long flush_count = timing_buff_flush();
+  // print_strace("timing_buff_flush(): %i\n", timing_buff_flush());
+// 
+  // /** chungmcl **/
   uintptr_t buffer_data_start = edge_call_data_ptr();
 
   if(data_len > (shared_buffer_size - (buffer_data_start - shared_buffer))){
@@ -118,32 +119,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   //TODO safety check on source
   copy_from_user((void*)buffer_data_start, (void*)data, data_len);
 
-  /** chungmcl **/ // DEBUGGING: hijack buffer_data_start to print out debug stuff
-  // 11th byte is first byte after "hello world"
-  // ((char*)buffer_data_start)[11] = ':';
-  
-  // long time = sbi_get_time();
-  // long interval = sbi_get_interval_len();
-
-  // int ascii_offset = 48;
-  // int hello_world_len = 12;
-  // int i = 0;
-  // for (long q = 100000000000000; q > 0; q /= 10) {
-  //   long digit = time / q % 10;
-  //   ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
-  //   i++;
-  // }
-
-  // int count = timing_buff_get_count();
-  // 
-  // ((char*)buffer_data_start)[hello_world_len + i] = ':';
-  // hello_world_len += i + 1;
-  // i = 0;
-  // for (long q = 100000000000000; q > 0; q /= 10) {
-  //   long digit = count / q % 10;
-  //   ((char*)buffer_data_start)[hello_world_len + i] = digit + ascii_offset;
-  //   i++;
-  // }
+  /** chungmcl **/ // DEBUGGING: 
 
   // for this to work, make sure to change
   // set(eyrie_plugins "freemem")
