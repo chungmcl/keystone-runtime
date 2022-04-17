@@ -88,6 +88,8 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   debug_timing_buff();
   if (!timing_buff_remove()) {
     print_strace("removal failed\n");
+  } else {
+    print_strace("removal succeeded!\n");
   }
 // 
   // unsigned int a = 18;
