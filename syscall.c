@@ -85,6 +85,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   uintptr_t arbitrary_write_dest = shared_buffer + 30;
   char* fish = "I'm fish";
   timing_buff_push((void*)arbitrary_write_dest, (void*)fish, strlen(fish) + 1);
+  debug_timing_buff();
   timing_buff_remove();
 // 
   // unsigned int a = 18;
