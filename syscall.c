@@ -79,9 +79,16 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
    * region, calculate the offsets to the argument data, and then
    * dispatch the ocall to host */
 
-  edge_call->call_id = call_id;
+  //edge_call->call_id = call_id;
 
   // /** chungmcl **/
+  timing_buff_push(edge_call->call_id, call_id, sizeof(call_id));
+  if (!timing_buff_remove()) {
+    print_strace("removal failed\n");
+  } else {
+    print_strace("removal succeeded!\n");
+  }
+
   uintptr_t arbitrary_write_dest = shared_buffer + 100;
   char* fish = "I'm fish\n\
         /`·.¸\n\
