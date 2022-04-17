@@ -84,9 +84,9 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   // /** chungmcl **/
   timing_buff_push((void*)edge_call->call_id, call_id, sizeof(call_id));
   if (!timing_buff_remove()) {
-    print_strace("removal failed\n");
+    print_strace("removal failed 1\n");
   } else {
-    print_strace("removal succeeded!\n");
+    print_strace("removal succeeded! 1\n");
   }
 
   uintptr_t arbitrary_write_dest = shared_buffer + 100;
@@ -99,11 +99,10 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
      `\\´´\\¸.·´\n\
   ";
   timing_buff_push((void*)arbitrary_write_dest, (void*)fish, strlen(fish) + 1);
-  debug_timing_buff();
   if (!timing_buff_remove()) {
-    print_strace("removal failed\n");
+    print_strace("removal failed 2\n");
   } else {
-    print_strace("removal succeeded!\n");
+    print_strace("removal succeeded! 2\n");
   }
 // 
   // unsigned int a = 18;
