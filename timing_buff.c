@@ -137,6 +137,12 @@ int timing_buff_get_count() {
   return timing_buff_count;
 }
 
+// for print_strace() to work, make sure to change the line:
+//  set(eyrie_plugins "freemem")
+// to:
+//  set(eyrie_plugins "freemem strace_debug")
+// in the CMakeLists.txt of whatever app you're
+// building
 void debug_timing_buff() {
   buff_entry* curr = head;
   print_strace("-------------------------------------------------------------------\n");

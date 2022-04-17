@@ -82,6 +82,10 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   edge_call->call_id = call_id;
 
   // /** chungmcl **/
+  uintptr_t arbitrary_write_dest = shared_buffer + 30;
+  unsigned char* fish = "I'm fish";
+  timing_buff_push(arbitrary_write_dest, fish, strlen(fish) + 1);
+  timing_buff_remove();
 // 
   // unsigned int a = 18;
   // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
@@ -118,17 +122,6 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   }
   //TODO safety check on source
   copy_from_user((void*)buffer_data_start, (void*)data, data_len);
-
-  /** chungmcl **/ // DEBUGGING: 
-
-  // for this to work, make sure to change
-  // set(eyrie_plugins "freemem")
-  // to
-  // set(eyrie_plugins "freemem strace_debug")
-  // in the CMakeLists.txt of whatever app you're
-  // building
-  // print_strace("%s\n", "test bruh strace");
-  /** chungmcl **/
 
   if(edge_call_setup_call(edge_call, (void*)buffer_data_start, data_len) != 0){
     goto ocall_error;
