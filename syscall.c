@@ -87,7 +87,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   timing_buff_push((void*)arbitrary_write_dest, (void*)fish, strlen(fish) + 1);
   debug_timing_buff();
   if (!timing_buff_remove()) {
-    sprintf("removal failed");
+    print_strace("removal failed\n");
   }
 // 
   // unsigned int a = 18;
