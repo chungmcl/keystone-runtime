@@ -83,8 +83,8 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
 
   // /** chungmcl **/
   uintptr_t arbitrary_write_dest = shared_buffer + 30;
-  unsigned char* fish = "I'm fish";
-  timing_buff_push(arbitrary_write_dest, fish, strlen(fish) + 1);
+  char* fish = "I'm fish";
+  timing_buff_push((void*)arbitrary_write_dest, (void*)fish, strlen(fish) + 1);
   timing_buff_remove();
 // 
   // unsigned int a = 18;
