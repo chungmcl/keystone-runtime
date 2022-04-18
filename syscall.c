@@ -199,8 +199,10 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 // TODO(chungmcl): syscall to copy/write to shared memory
 // consider making it a build option?
 bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
+  char test[2048];
+  copy_from_user(test, src, size);
   print_strace("write to shared: \n");
-  print_strace("src: %s\n", (char*)src);
+  print_strace("src: %s\n", test);
   print_strace("offset: %lu\n", offset);
   print_strace("size: %lu\n", size);
   print_strace("\n");
@@ -210,7 +212,7 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   //   return false;
   // }
 
-  memcpy((void*)dst_ptr, src, size);
+  memcpy((void*)dst_ptr, test, size);
   return true;
 }
 
