@@ -84,25 +84,9 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   // /** chungmcl **/
   timing_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
   if (!timing_buff_remove()) {
-    print_strace("removal failed 1\n");
+    print_strace("edge_call->call_id removal failed\n");
   } else {
-    print_strace("removal succeeded! 1\n");
-  }
-
-  uintptr_t arbitrary_write_dest = shared_buffer + 100;
-  char* fish = "I'm fish\n\
-        /`·.¸\n\
-     /¸...¸`:·\n\
- ¸.·´  ¸   `·.¸.·´)\n\
-: © ):´;      ¸  {\n\
- `·.¸ `·  ¸.·´\\`·¸)\n\
-     `\\´´\\¸.·´\n\
-  ";
-  timing_buff_push((void*)arbitrary_write_dest, (void*)fish, strlen(fish) + 1);
-  if (!timing_buff_remove()) {
-    print_strace("removal failed 2\n");
-  } else {
-    print_strace("removal succeeded! 2\n");
+    print_strace("edge_call->call_id removal succeeded! 1\n");
   }
 // 
   // unsigned int a = 18;
