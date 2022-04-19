@@ -182,24 +182,24 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 // consider making it a build option?
 bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   print_strace("write_to_shared called\n");
-  //copy_from_user((void*)rt_copy_buffer_2, src, size);
-  // print_strace("*src: %s\n", (char*)rt_copy_buffer_2);
-  // print_strace("offset: %lu\n", offset);
-  // print_strace("size: %lu\n", size);
-  uintptr_t dst_ptr;
-  if (edge_call_get_ptr_from_offset(offset, size,
-  			   &dst_ptr) != 0){
-    return false;
-  }
-
-  // sbi_pause_ms(2000);
-  // memcpy((void*)dst_ptr, rt_copy_buffer_2, size);
-  if (!timing_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
-    print_strace("write_to_shared push failed.\n");
-  }
-  if (!timing_buff_remove()) {
-    print_strace("write_to_shared remove failed.\n");
-  }
+  // copy_from_user((void*)rt_copy_buffer_2, src, size);
+  // // print_strace("*src: %s\n", (char*)rt_copy_buffer_2);
+  // // print_strace("offset: %lu\n", offset);
+  // // print_strace("size: %lu\n", size);
+  // uintptr_t dst_ptr;
+  // if (edge_call_get_ptr_from_offset(offset, size,
+  // 			   &dst_ptr) != 0){
+  //   return false;
+  // }
+// 
+  // // sbi_pause_ms(2000);
+  // // memcpy((void*)dst_ptr, rt_copy_buffer_2, size);
+  // if (!timing_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
+  //   print_strace("write_to_shared push failed.\n");
+  // }
+  // if (!timing_buff_remove()) {
+  //   print_strace("write_to_shared remove failed.\n");
+  // }
   return true;
 }
 
