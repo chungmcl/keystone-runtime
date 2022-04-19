@@ -181,6 +181,7 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 // TODO(chungmcl): syscall to copy/write to shared memory
 // consider making it a build option?
 bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
+  print_strace("write_to_shared called\n");
   copy_from_user((void*)rt_copy_buffer_2, src, size);
   // print_strace("*src: %s\n", (char*)rt_copy_buffer_2);
   // print_strace("offset: %lu\n", offset);
