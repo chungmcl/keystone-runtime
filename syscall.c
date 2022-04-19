@@ -185,19 +185,19 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   copy_from_user((void*)rt_copy_buffer_2, src, size);
   // print_strace("write to shared: \n");
-  print_strace("src: %s\n", (char*)rt_copy_buffer_2);
-  print_strace("offset: %lu\n", offset);
-  // print_strace("size: %lu\n", size);
-  // print_strace("\n");
-  uintptr_t dst_ptr;
-  if (edge_call_get_ptr_from_offset(offset, size,
-				   &dst_ptr) != 0){
-    return false;
-  }
-  print_strace("dst_ptr: %p\n", dst_ptr);
-
-  sbi_pause_ms(2000);
-  memcpy((void*)dst_ptr, rt_copy_buffer_2, size);
+  // print_strace("src: %s\n", (char*)rt_copy_buffer_2);
+  // print_strace("offset: %lu\n", offset);
+  // // print_strace("size: %lu\n", size);
+  // // print_strace("\n");
+  // uintptr_t dst_ptr;
+  // if (edge_call_get_ptr_from_offset(offset, size,
+	// 			   &dst_ptr) != 0){
+  //   return false;
+  // }
+  // print_strace("dst_ptr: %p\n", dst_ptr);
+// 
+  // sbi_pause_ms(2000);
+  // memcpy((void*)dst_ptr, rt_copy_buffer_2, size);
   return true;
 }
 
