@@ -189,11 +189,11 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   // print_strace("offset: %lu\n", offset);
   // print_strace("size: %lu\n", size);
   // print_strace("\n");
-  uintptr_t dst_ptr;
-  if(edge_call_get_ptr_from_offset(offset, size,
-				   &dst_ptr) != 0){
-    return false;
-  }
+  //uintptr_t dst_ptr;
+  //if(edge_call_get_ptr_from_offset(offset, size,
+	//			   &dst_ptr) != 0){
+  //  return false;
+  //}
   
   // 5 secs
   // sbi_pause_ms(5000);
