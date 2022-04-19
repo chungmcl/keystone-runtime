@@ -196,7 +196,7 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   }
   
   // 5 secs
-  sbi_pause_ms(5000);
+  // sbi_pause_ms(5000);
   memcpy((void*)dst_ptr, rt_copy_buffer_2, size);
   return true;
 }
