@@ -46,6 +46,11 @@ sbi_pause() {
   return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_PAUSE);
 }
 
+uintptr_t
+sbi_pause_ms(unsigned long ms) {
+  return SBI_CALL_1(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_PAUSE_MS, ms);
+}
+
 unsigned long
 sbi_get_time() {
   return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_TIME);

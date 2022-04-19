@@ -23,9 +23,10 @@
 #define SBI_SM_STOP_ENCLAVE      3004
 #define SBI_SM_EXIT_ENCLAVE      3006
 // chungmcl: should match with sm/sm.h
-#define SBI_SM_PAUSE             3007
-#define SBI_SM_GET_TIME          3008
-#define SBI_SM_GET_INTERVAL_LEN  3009
+#define SBI_SM_PAUSE              3007
+#define SBI_SM_PAUSE_MS           3008
+#define SBI_SM_GET_TIME           3009
+#define SBI_SM_GET_INTERVAL_LEN   3010
 // chungmcl
 #define SBI_SM_CALL_PLUGIN       4000
 
@@ -42,6 +43,9 @@ sbi_set_timer(uint64_t stime_value);
 // chungmcl
 uintptr_t
 sbi_pause();
+
+uintptr_t
+sbi_pause_ms(unsigned long ms);
 
 unsigned long
 sbi_get_time();
