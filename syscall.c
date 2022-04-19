@@ -82,12 +82,12 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   //edge_call->call_id = call_id;
 
   // /** chungmcl **/
-  //timing_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
-  //if (!timing_buff_remove()) {
-  //  print_strace("edge_call->call_id removal failed\n");
-  //} else {
-  //  print_strace("edge_call->call_id removal succeeded!\n");
-  //}
+  timing_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
+  if (!timing_buff_remove()) {
+    print_strace("edge_call->call_id removal failed\n");
+  } else {
+    print_strace("edge_call->call_id removal succeeded!\n");
+  }
 // 
   // unsigned int a = 18;
   // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
@@ -183,21 +183,21 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 // TODO(chungmcl): syscall to copy/write to shared memory
 // consider making it a build option?
 bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
-  //copy_from_user((void*)rt_copy_buffer_2, src, size);
+  copy_from_user((void*)rt_copy_buffer_2, src, size);
   // print_strace("write to shared: \n");
   // print_strace("src: %s\n", (char*)rt_copy_buffer_2);
   // print_strace("offset: %lu\n", offset);
   // print_strace("size: %lu\n", size);
   // print_strace("\n");
-  //uintptr_t dst_ptr;
-  //if(edge_call_get_ptr_from_offset(offset, size,
-	//			   &dst_ptr) != 0){
-  //  return false;
-  //}
+  uintptr_t dst_ptr;
+  if(edge_call_get_ptr_from_offset(offset, size,
+				   &dst_ptr) != 0){
+    return false;
+  }
   
   // 5 secs
   // sbi_pause_ms(5000);
-  //memcpy((void*)dst_ptr, rt_copy_buffer_2, size);
+  memcpy((void*)dst_ptr, rt_copy_buffer_2, size);
   return true;
 }
 
