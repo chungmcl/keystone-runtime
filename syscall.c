@@ -248,7 +248,7 @@ void handle_syscall(struct encl_ctx* ctx)
     ret = handle_write_to_shared((void*)arg0, arg1, arg2);
     break;
   case(RUNTIME_SYSCALL_PAUSE_MS):
-    ret = handle_pause_ms((void*)arg0);
+    ret = handle_pause_ms((unsigned long)arg0);
     break;
   // chungmcl
   case(RUNTIME_SYSCALL_ATTEST_ENCLAVE):;
