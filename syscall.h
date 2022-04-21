@@ -17,6 +17,7 @@
 #define RUNTIME_SYSCALL_GET_SEALING_KEY     1004
 // chungmcl
 #define RUNTIME_SYSCALL_SHAREDWRITE         1005
+#define RUNTIME_SYSCALL_PAUSE_MS            1006
 // chungmcl
 #define RUNTIME_SYSCALL_EXIT                1101
 

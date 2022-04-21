@@ -197,6 +197,10 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   return true;
 }
 
+bool handle_pause_ms(unsigned long ms) {
+  sbi_pause_ms(ms);
+}
+
 void init_edge_internals(){
   edge_call_init_internals(shared_buffer, shared_buffer_size);
 }
@@ -242,6 +246,9 @@ void handle_syscall(struct encl_ctx* ctx)
   // chungmcl
   case(RUNTIME_SYSCALL_SHAREDWRITE):
     ret = handle_write_to_shared((void*)arg0, arg1, arg2);
+    break;
+  case(RUNTIME_SYSCALL_PAUSE_MS):
+    ret = handle_pause_ms((void*)arg0);
     break;
   // chungmcl
   case(RUNTIME_SYSCALL_ATTEST_ENCLAVE):;
