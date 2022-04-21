@@ -186,11 +186,11 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   // // print_strace("*src: %s\n", (char*)rt_copy_buffer_2);
   // // print_strace("offset: %lu\n", offset);
   // // print_strace("size: %lu\n", size);
-  // uintptr_t dst_ptr;
-  // if (edge_call_get_ptr_from_offset(offset, size,
-  // 			   &dst_ptr) != 0){
-  //   return false;
-  // }
+  uintptr_t dst_ptr;
+  if (edge_call_get_ptr_from_offset(offset, size,
+  			   &dst_ptr) != 0){
+    return false;
+  }
 // 
   // // sbi_pause_ms(2000);
   // // memcpy((void*)dst_ptr, rt_copy_buffer_2, size);
