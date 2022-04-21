@@ -248,6 +248,7 @@ void handle_syscall(struct encl_ctx* ctx)
   // chungmcl
   case(RUNTIME_SYSCALL_SHAREDWRITE):
     ret = handle_write_to_shared((void*)arg0, arg1, arg2);
+    break;
   // chungmcl
   case(RUNTIME_SYSCALL_ATTEST_ENCLAVE):;
     copy_from_user((void*)rt_copy_buffer_2, (void*)arg1, arg2);
