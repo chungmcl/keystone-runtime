@@ -198,7 +198,6 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
 }
 
 bool handle_pause_ms(unsigned long ms) {
-  print_strace("ms: %lu\n", ms);
   sbi_pause_ms(ms);
   return true;
 }
