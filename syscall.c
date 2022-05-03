@@ -191,9 +191,9 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   if (!timing_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
     print_strace("write_to_shared push failed.\n");
   }
-  if (!timing_buff_remove()) {
-    print_strace("write_to_shared remove failed.\n");
-  }
+  // if (!timing_buff_remove()) {
+  //   print_strace("write_to_shared remove failed.\n");
+  // }
   return true;
 }
 
@@ -212,7 +212,7 @@ void handle_syscall(struct encl_ctx* ctx)
   // are deadlines up?
   // - if yes, finalize writes (flush buffer)
   // - if exiting (exit/stop), finalize writes at the furthest deadline
-  // timing_buff_flush();
+  timing_buff_flush();
   // chungmcl
   uintptr_t n = ctx->regs.a7;
   uintptr_t arg0 = ctx->regs.a0;
