@@ -232,8 +232,10 @@ void handle_syscall(struct encl_ctx* ctx)
   switch (n) {
 
   case(RUNTIME_SYSCALL_EXIT):
-    int res = timing_buff_flush();
-    print_strace("full flush: %i\n", res);
+    {
+      int res = timing_buff_flush();
+      print_strace("full flush: %i\n", res);
+    }
     sbi_exit_enclave(arg0);
     break;
   case(RUNTIME_SYSCALL_OCALL):
