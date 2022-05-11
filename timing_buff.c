@@ -116,10 +116,11 @@ int timing_buff_flush() {
   for (int i = 0; i < timing_buff_count_copy; i++) {
     if (time >= curr->write_time) {
       print_strace("time: %lu\n", time);
-      print_strace("write_time: %lu\n\n", curr->write_time);
+      print_strace("write_time: %lu\n", curr->write_time);
       if (timing_buff_remove()) {
         count += 1;
       } else return -1;
+      print_strace("\n");
     } else return count;
     curr = curr->next;
   }
@@ -129,6 +130,7 @@ int timing_buff_flush() {
 bool timing_buff_remove() {
   if (timing_buff_count > 0) {
     memcpy(head->dest, head->data_copy, head->data_size);
+    print_strace("val: %lu\n", *head->dest);
     head = head->next;
     timing_buff_count -= 1;
     return true;
