@@ -120,7 +120,7 @@ int timing_buff_flush() {
         count += 1;
       } else return -1;
       // TODO(chungmcl): REMOVE ME! For debugging
-      sbi_pause_ms(1000);
+      sbi_pause_ms(500);
       //
     } else return count;
     curr = curr->next;
