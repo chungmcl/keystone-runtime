@@ -115,6 +115,8 @@ int timing_buff_flush() {
   int timing_buff_count_copy = timing_buff_count;
   for (int i = 0; i < timing_buff_count_copy; i++) {
     if (time >= curr->write_time) {
+      print_strace("time: %lu\n", time);
+      print_strace("write_time: %lu\n\n", curr->write_time);
       if (timing_buff_remove()) {
         count += 1;
       } else return -1;
