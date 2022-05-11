@@ -83,38 +83,10 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
 
   /** chungmcl **/
   timing_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
-  // if (!timing_buff_remove()) {
-  //   print_strace("edge_call->call_id removal failed\n");
-  // }
-// 
-  // unsigned int a = 18;
-  // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
-// 
-  // a += 1;
-  // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
-// 
-  // a += 1;
-  // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
-// 
-  // a += 1;
-  // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
-// 
-  // a += 1;
-  // timing_buff_push(&edge_call->call_id, &a, sizeof(a));
-  // 
-  // debug_timing_buff();
-  // int count = timing_buff_get_count();
-  // print_strace("get_count(): %i\n", count);
-  // // timing_buff_remove();
-// 
-  // for (int i = 0; i < 200; i++) {
-  //   sbi_pause();
-  // }
-  // timing_buff_remove();
-  // //long flush_count = timing_buff_flush();
-  // print_strace("timing_buff_flush(): %i\n", timing_buff_flush());
-// 
-  // /** chungmcl **/
+  if (!timing_buff_remove()) {
+    print_strace("edge_call->call_id removal failed\n");
+  }
+  /** chungmcl **/
   uintptr_t buffer_data_start = edge_call_data_ptr();
 
   if(data_len > (shared_buffer_size - (buffer_data_start - shared_buffer))){
@@ -191,9 +163,9 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   if (!timing_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
     print_strace("write_to_shared push failed.\n");
   }
-  // if (!timing_buff_remove()) {
-  //   print_strace("write_to_shared remove failed.\n");
-  // }
+  if (!timing_buff_remove()) {
+    print_strace("write_to_shared remove failed.\n");
+  }
   return true;
 }
 
@@ -212,7 +184,7 @@ void handle_syscall(struct encl_ctx* ctx)
   // are deadlines up?
   // - if yes, finalize writes (flush buffer)
   // - if exiting (exit/stop), finalize writes at the furthest deadline
-  timing_buff_flush_due_items();
+  // timing_buff_flush_due_items();
   // chungmcl
   uintptr_t n = ctx->regs.a7;
   uintptr_t arg0 = ctx->regs.a0;
@@ -232,10 +204,10 @@ void handle_syscall(struct encl_ctx* ctx)
   switch (n) {
 
   case(RUNTIME_SYSCALL_EXIT):
-    {
-      int res = timing_buff_flush();
-      print_strace("full flush: %i\n", res);
-    }
+    // {
+    //   int res = timing_buff_flush();
+    //   print_strace("full flush: %i\n", res);
+    // }
     sbi_exit_enclave(arg0);
     break;
   case(RUNTIME_SYSCALL_OCALL):
