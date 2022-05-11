@@ -3,8 +3,9 @@
 #include "vm.h"
 #include "mm.h"
 
-// TODO(chungmcl): REMOVE ME! For debugging (print_strace() calls)
-#include "syscall.h"
+// TODO(chungmcl): REMOVE ME! For debugging
+#include "syscall.h" // (print_strace() calls)
+#include "sbi.h" // (sbi_pause_ms() calls)
 
 uintptr_t timing_buff;
 uintptr_t timing_buff_end;
@@ -118,6 +119,9 @@ int timing_buff_flush() {
       if (timing_buff_remove()) {
         count += 1;
       } else return -1;
+      // TODO(chungmcl): REMOVE ME! For debugging
+      sbi_pause_ms(1000);
+      //
     } else return count;
     curr = curr->next;
   }
