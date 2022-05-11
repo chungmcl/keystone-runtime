@@ -108,7 +108,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   return true;
 }
 
-int timing_buff_flush() {
+int timing_buff_flush_due_items() {
   unsigned long time = sbi_get_time();
   buff_entry* curr = head;
   int count = 0;
@@ -123,6 +123,16 @@ int timing_buff_flush() {
       print_strace("\n");
     } else return count;
     curr = curr->next;
+  }
+  return count;
+}
+
+int timing_buff_flush() {
+  int count = 0;
+  while (timing_buff_count != 0) {
+    if (timing_buff_remove()) {
+      count += 1;
+    } else return -1;
   }
   return count;
 }
