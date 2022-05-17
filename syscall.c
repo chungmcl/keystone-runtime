@@ -184,7 +184,7 @@ void handle_syscall(struct encl_ctx* ctx)
   // are deadlines up?
   // - if yes, finalize writes (flush buffer)
   // - if exiting (exit/stop), finalize writes at the furthest deadline
-  timing_buff_flush_due_items();
+  timing_buff_flush_due_items(sbi_get_time());
   // chungmcl
   uintptr_t n = ctx->regs.a7;
   uintptr_t arg0 = ctx->regs.a0;

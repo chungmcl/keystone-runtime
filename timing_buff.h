@@ -20,7 +20,7 @@ bool timing_buff_push(void* dest, void* data, size_t data_size);
 // Flushes all buf_entries that are up for removal.
 // Returns # of successful flushes.
 // Returns -1 on failure.
-int timing_buff_flush_due_items();
+int timing_buff_flush_due_items(unsigned long time);
 int timing_buff_flush();
 
 // Flush the head of the timing buff
