@@ -108,14 +108,13 @@ bool timing_buff_push(void* dest, void* data, size_t data_size) {
   return true;
 }
 
-int timing_buff_flush_due_items(unsigned long time) {
-  // unsigned long time = sbi_get_time();
+int timing_buff_flush_due_items(unsigned long curr_time) {
   buff_entry* curr = head;
   int count = 0;
   int timing_buff_count_copy = timing_buff_count;
   for (int i = 0; i < timing_buff_count_copy; i++) {
-    if (time >= curr->write_time) {
-      print_strace("timing_buff_flush_due_items() time: %lu\n", time);
+    if (curr_time >= curr->write_time) {
+      print_strace("timing_buff_flush_due_items() time: %lu\n", curr_time);
       print_strace("timing_buff_flush_due_items() write_time: %lu\n", curr->write_time);
       if (timing_buff_remove()) {
         count += 1;
@@ -130,12 +129,10 @@ int timing_buff_flush_due_items(unsigned long time) {
 int timing_buff_flush() {
   int count = 0;
   while (timing_buff_count != 0) {
-    unsigned long nextEpoch = sbi_pause();
-    print_strace("RT nextEpoch: %lu\n", nextEpoch);
-    count += timing_buff_flush_due_items(nextEpoch); // check if -1
-    // if (timing_buff_remove()) {
-    //   count += 1;
-    // } else return -1;
+    int items_flushed = timing_buff_flush_due_items(sbi_pause());
+    if (items_flushed != -1) {
+      count += items_flushed;
+    } else return -1;
   }
   return count;
 }

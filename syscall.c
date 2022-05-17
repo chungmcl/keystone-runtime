@@ -180,18 +180,21 @@ void init_edge_internals(){
 
 void handle_syscall(struct encl_ctx* ctx)
 {
-  // chungmcl
-  // are deadlines up?
-  // - if yes, finalize writes (flush buffer)
-  // - if exiting (exit/stop), finalize writes at the furthest deadline
-  timing_buff_flush_due_items(sbi_get_time());
-  // chungmcl
   uintptr_t n = ctx->regs.a7;
   uintptr_t arg0 = ctx->regs.a0;
   uintptr_t arg1 = ctx->regs.a1;
   uintptr_t arg2 = ctx->regs.a2;
   uintptr_t arg3 = ctx->regs.a3;
   uintptr_t arg4 = ctx->regs.a4;
+
+  // chungmcl
+  // are deadlines up?
+  // - if yes, finalize writes (flush buffer)
+  // - if exiting (exit/stop), finalize writes at the furthest deadline
+  // chungmcl
+  if (n != RUNTIME_SYSCALL_EXIT) {
+    timing_buff_flush_due_items(sbi_get_time());
+  }
 
   // We only use arg5 in these for now, keep warnings happy.
 #if defined(LINUX_SYSCALL_WRAPPING) || defined(IO_SYSCALL_WRAPPING)

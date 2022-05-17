@@ -17,10 +17,11 @@ bool timing_buff_init();
 // Push a new element to the timing buff
 bool timing_buff_push(void* dest, void* data, size_t data_size);
 
-// Flushes all buf_entries that are up for removal.
+// Flushes all buf_entries that are up for removal,
+// given the current time.
 // Returns # of successful flushes.
 // Returns -1 on failure.
-int timing_buff_flush_due_items(unsigned long time);
+int timing_buff_flush_due_items(unsigned long curr_time);
 int timing_buff_flush();
 
 // Flush the head of the timing buff
