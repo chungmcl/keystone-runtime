@@ -114,12 +114,12 @@ int timing_buff_flush_due_items(unsigned long curr_time) {
   int timing_buff_count_copy = timing_buff_count;
   for (int i = 0; i < timing_buff_count_copy; i++) {
     if (curr_time >= curr->write_time) {
-      print_strace("timing_buff_flush_due_items() time: %lu\n", curr_time);
-      print_strace("timing_buff_flush_due_items() write_time: %lu\n", curr->write_time);
+      // print_strace("timing_buff_flush_due_items() time: %lu\n", curr_time);
+      // print_strace("timing_buff_flush_due_items() write_time: %lu\n", curr->write_time);
       if (timing_buff_remove()) {
         count += 1;
       } else return -1;
-      print_strace("\n");
+      // print_strace("\n");
     } else return count;
     curr = curr->next;
   }
@@ -140,7 +140,7 @@ int timing_buff_flush() {
 bool timing_buff_remove() {
   if (timing_buff_count > 0) {
     memcpy(head->dest, head->data_copy, head->data_size);
-    print_strace("timing_buff_remove() wrote val: %lu\n", *head->dest);
+    // print_strace("timing_buff_remove() wrote val: %lu\n", *head->dest);
     head = head->next;
     timing_buff_count -= 1;
     return true;
@@ -157,20 +157,20 @@ int timing_buff_get_count() {
 //  set(eyrie_plugins "freemem strace_debug")
 // in the CMakeLists.txt of whatever app you're
 // building
-void debug_timing_buff() {
-  buff_entry* curr = head;
-  print_strace("-------------------------------------------------------------------\n");
-  print_strace("timing_buff: %p\n", (void*)timing_buff);
-  print_strace("Head: %p\n", (void*)head);
-  print_strace("Tail: %p\n\n", (void*)tail);
-  for (int i = 0; i < timing_buff_count; i++) {
-    print_strace("Element #: %i\n", i);
-    print_strace("curr->next: %p\n", (void*)curr->next);
-    print_strace("curr->dest: %p\n", (void*)curr->dest);
-    print_strace("curr->write_time: %lu\n", curr->write_time);
-    print_strace("curr->data_size: %zu\n", curr->data_size);
-    print_strace("curr->data_copy: %lu\n", *curr->data_copy);
-    print_strace("\n");
-    curr = curr->next;
-  }
-}
+// void debug_timing_buff() {
+//   buff_entry* curr = head;
+//   print_strace("-------------------------------------------------------------------\n");
+//   print_strace("timing_buff: %p\n", (void*)timing_buff);
+//   print_strace("Head: %p\n", (void*)head);
+//   print_strace("Tail: %p\n\n", (void*)tail);
+//   for (int i = 0; i < timing_buff_count; i++) {
+//     print_strace("Element #: %i\n", i);
+//     print_strace("curr->next: %p\n", (void*)curr->next);
+//     print_strace("curr->dest: %p\n", (void*)curr->dest);
+//     print_strace("curr->write_time: %lu\n", curr->write_time);
+//     print_strace("curr->data_size: %zu\n", curr->data_size);
+//     print_strace("curr->data_copy: %lu\n", *curr->data_copy);
+//     print_strace("\n");
+//     curr = curr->next;
+//   }
+// }
