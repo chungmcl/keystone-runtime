@@ -2,6 +2,7 @@
 #define _MM_H_
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #include "vm_defs.h"
 
