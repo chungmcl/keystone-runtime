@@ -79,10 +79,10 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
    * region, calculate the offsets to the argument data, and then
    * dispatch the ocall to host */
 
-  // edge_call->call_id = call_id;
+  edge_call->call_id = call_id;
 
   /** chungmcl **/
-  timing_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
+  // timing_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
   // if (!timing_buff_remove()) {
   //   print_strace("edge_call->call_id removal failed\n");
   // }
