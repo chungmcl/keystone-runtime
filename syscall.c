@@ -80,13 +80,8 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
    * dispatch the ocall to host */
 
   // edge_call->call_id = call_id;
-
-  /** chungmcl **/
   timing_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
-  // if (!timing_buff_remove()) {
-  //   print_strace("edge_call->call_id removal failed\n");
-  // }
-  /** chungmcl **/
+
   uintptr_t buffer_data_start = edge_call_data_ptr();
 
   if(data_len > (shared_buffer_size - (buffer_data_start - shared_buffer))){
