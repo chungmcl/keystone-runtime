@@ -3,8 +3,7 @@
 #include "vm.h"
 #include "mm.h"
 
-// TODO(chungmcl): REMOVE ME! For debugging
-#include "syscall.h" // (print_strace() calls)
+// #include "syscall.h" // for debugging w/ print_strace() calls
 
 uintptr_t timing_buff;
 uintptr_t timing_buff_end;
@@ -19,10 +18,6 @@ bool timing_buff_init() {
   // size of page defined by RISCV_PAGE_SIZE in vm_defs.h
 
   uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
-
-  // TODO(chungmcl): get rid of PTE_U and write a alloc_pages
-  // that doesn't crash without PTE_U
-  // PTE flags should be: PTE_R | PTE_W | PTE_D | PTE_A
   int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A;
   uintptr_t valid_pages;
   int req_pages = 1;

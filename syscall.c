@@ -158,9 +158,6 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   if (!timing_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
     print_strace("write_to_shared push failed.\n");
   }
-  // if (!timing_buff_remove()) {
-  //   print_strace("write_to_shared remove failed.\n");
-  // }
   return true;
 }
 
@@ -184,8 +181,8 @@ void handle_syscall(struct encl_ctx* ctx)
 
   // chungmcl
   // are deadlines up?
-  // - if yes, finalize writes (flush buffer)
-  // - if exiting (exit/stop), finalize writes at the furthest deadline
+  // - if yes, finalize writes (flush due items)
+  // - if exiting (exit/stop), finalize writes at the furthest deadline (flush)
   // chungmcl
   if (n != RUNTIME_SYSCALL_EXIT && n != RUNTIME_SYSCALL_OCALL) {
     timing_buff_flush_due_items(sbi_get_time());
