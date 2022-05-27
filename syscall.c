@@ -207,12 +207,10 @@ void handle_syscall(struct encl_ctx* ctx)
   switch (n) {
 
   case(RUNTIME_SYSCALL_EXIT):
-    timing_buff_flush();
     sbi_exit_enclave(arg0);
     break;
   case(RUNTIME_SYSCALL_OCALL):
     ret = dispatch_edgecall_ocall(arg0, (void*)arg1, arg2, (void*)arg3, arg4);
-    timing_buff_flush();
     break;
   case(RUNTIME_SYSCALL_SHAREDCOPY):
     ret = handle_copy_from_shared((void*)arg0, arg1, arg2);
