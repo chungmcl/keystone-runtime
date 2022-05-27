@@ -23,7 +23,7 @@ bool timing_buff_init() {
   // TODO(chungmcl): get rid of PTE_U and write a alloc_pages
   // that doesn't crash without PTE_U
   // PTE flags should be: PTE_R | PTE_W | PTE_D | PTE_A
-  int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A | PTE_U;
+  int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A;
   uintptr_t valid_pages;
   int req_pages = 1;
   while ((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END) {
