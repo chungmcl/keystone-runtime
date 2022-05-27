@@ -95,7 +95,7 @@ init_user_stack_and_env()
 
   // allocated stack pages right below the runtime
   count = alloc_pages(vpn(stack_end), stack_count,
-      PTE_R | PTE_W | PTE_D | PTE_A | PTE_U);
+      PTE_R | PTE_W | PTE_D | PTE_A | PTE_U, true);
 
   assert(count == stack_count);
 
