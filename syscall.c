@@ -192,7 +192,7 @@ void handle_syscall(struct encl_ctx* ctx)
   // - if yes, finalize writes (flush buffer)
   // - if exiting (exit/stop), finalize writes at the furthest deadline
   // chungmcl
-  if (n != RUNTIME_SYSCALL_EXIT) {
+  if (n != RUNTIME_SYSCALL_EXIT && n != RUNTIME_SYSCALL_OCALL) {
     timing_buff_flush_due_items(sbi_get_time());
   }
 
@@ -207,12 +207,11 @@ void handle_syscall(struct encl_ctx* ctx)
   switch (n) {
 
   case(RUNTIME_SYSCALL_EXIT):
-    {
-      timing_buff_flush();
-    }
+    timing_buff_flush();
     sbi_exit_enclave(arg0);
     break;
   case(RUNTIME_SYSCALL_OCALL):
+    timing_buff_flush();
     ret = dispatch_edgecall_ocall(arg0, (void*)arg1, arg2, (void*)arg3, arg4);
     break;
   case(RUNTIME_SYSCALL_SHAREDCOPY):
