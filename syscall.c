@@ -158,6 +158,7 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   if (!timing_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
     print_strace("write_to_shared push failed.\n");
   }
+  timing_buff_remove();
   return true;
 }
 
