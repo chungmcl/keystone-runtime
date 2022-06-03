@@ -164,7 +164,7 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   }
   timing_buff_remove();
 #else
-  memcpy(dst_ptr + offset, src, size);
+  memcpy((void*)(dst_ptr + offset), src, size);
 #endif
 
 
