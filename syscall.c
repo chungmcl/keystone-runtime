@@ -165,7 +165,7 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   }
   timing_buff_remove();
 #else
-  copy_from_user((void*)(dst_ptr + offset), src, size);
+  copy_from_user((void*)(dst_ptr), src, size);
 #endif
 
 
