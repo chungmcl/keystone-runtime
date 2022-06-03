@@ -78,9 +78,12 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   /* We encode the call id, copy the argument data into the shared
    * region, calculate the offsets to the argument data, and then
    * dispatch the ocall to host */
-
-  // edge_call->call_id = call_id;
+#if FUZZ
   timing_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
+#else
+  edge_call->call_id = call_id;
+#endif
+  
 
   uintptr_t buffer_data_start = edge_call_data_ptr();
 
@@ -155,10 +158,16 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
     return false;
   }
 
+#if FUZZ
   if (!timing_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
     print_strace("write_to_shared push failed.\n");
   }
   timing_buff_remove();
+#else
+  memcpy(dst_ptr + offset, src, size);
+#endif
+
+
   return true;
 }
 
@@ -185,9 +194,11 @@ void handle_syscall(struct encl_ctx* ctx)
   // - if yes, finalize writes (flush due items)
   // - if exiting (exit/stop), finalize writes at the furthest deadline (flush)
   // chungmcl
+#if FUZZ
   if (n != RUNTIME_SYSCALL_EXIT && n != RUNTIME_SYSCALL_OCALL) {
     timing_buff_flush_due_items(sbi_get_time());
   }
+#endif
 
   // We only use arg5 in these for now, keep warnings happy.
 #if defined(LINUX_SYSCALL_WRAPPING) || defined(IO_SYSCALL_WRAPPING)

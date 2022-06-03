@@ -66,13 +66,17 @@ sbi_get_interval_len() {
 // chungmcl: called by vanilla hello_native
 uintptr_t
 sbi_stop_enclave(uint64_t request) {
+#if FUZZ
   timing_buff_flush();
+#endif
   return SBI_CALL_1(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_STOP_ENCLAVE, request);
 }
 
 void
 sbi_exit_enclave(uint64_t retval) {
+#if FUZZ
   timing_buff_flush();
+#endif
   SBI_CALL_1(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_EXIT_ENCLAVE, retval);
 }
 
