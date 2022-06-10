@@ -3,6 +3,8 @@
 
 #include "vm.h"
 
+#define FUZZ 1
+
 typedef struct buff_entry {
   struct buff_entry* next;
   uint8_t* dest;

@@ -21,8 +21,6 @@
 // chungmcl
 #define RUNTIME_SYSCALL_EXIT                1101
 
-#define FUZZ 1
-
 void handle_syscall(struct encl_ctx* ctx); // (3), (4) [dispatch_edgecall_ocall() above handle_syscall() @ :64]
 void init_edge_internals(void);
 uintptr_t dispatch_edgecall_syscall(struct edge_syscall* syscall_data_ptr,
