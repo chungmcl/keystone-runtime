@@ -22,12 +22,14 @@
 #define SBI_SM_GET_SEALING_KEY   3003
 #define SBI_SM_STOP_ENCLAVE      3004
 #define SBI_SM_EXIT_ENCLAVE      3006
-// chungmcl: should match with sm/sm.h
+
+// START(chungmcl): should match with sm/sm.h
 #define SBI_SM_PAUSE              3007
 #define SBI_SM_PAUSE_MS           3008
 #define SBI_SM_GET_TIME           3009
 #define SBI_SM_GET_INTERVAL_LEN   3010
-// chungmcl
+// END(chungmcl)
+
 #define SBI_SM_CALL_PLUGIN       4000
 
 /* Plugin IDs and Call IDs */
@@ -40,7 +42,7 @@ sbi_putchar(char c);
 void
 sbi_set_timer(uint64_t stime_value);
 
-// chungmcl
+// START(chungmcl)
 unsigned long
 sbi_pause();
 
@@ -52,7 +54,7 @@ sbi_get_time();
 
 unsigned long
 sbi_get_interval_len();
-// chungmcl
+// END(chungmcl)
 
 uintptr_t
 sbi_stop_enclave(uint64_t request);

@@ -41,7 +41,6 @@ sbi_set_timer(uint64_t stime_value) {
 #endif
 }
 
-// chungmcl
 uintptr_t
 sbi_pause() {
   return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_PAUSE);
@@ -61,9 +60,7 @@ unsigned long
 sbi_get_interval_len() {
   return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_INTERVAL_LEN);
 }
-// chungmcl
 
-// chungmcl: called by vanilla hello_native
 uintptr_t
 sbi_stop_enclave(uint64_t request) {
 #if FUZZ

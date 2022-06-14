@@ -189,11 +189,6 @@ void handle_syscall(struct encl_ctx* ctx)
   uintptr_t arg3 = ctx->regs.a3;
   uintptr_t arg4 = ctx->regs.a4;
 
-  // chungmcl
-  // are deadlines up?
-  // - if yes, finalize writes (flush due items)
-  // - if exiting (exit/stop), finalize writes at the furthest deadline (flush)
-  // chungmcl
 #if FUZZ
   if (n != RUNTIME_SYSCALL_EXIT && n != RUNTIME_SYSCALL_OCALL) {
     timing_buff_flush_due_items(sbi_get_time());

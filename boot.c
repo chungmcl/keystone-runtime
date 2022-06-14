@@ -169,8 +169,7 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
 
   /* Enable the FPU */
   csr_write(sstatus, csr_read(sstatus) | 0x6000);
-
-  // chungmcl
+  
   // TODO(chungmcl):
   if (timing_buff_init()) {
     // pass
@@ -180,7 +179,6 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
     // (also create an issue for SM on SM repo -- we need a way
     // for an enclave to exit AND say that it can never be run again)
   }
-  // chungmcl
 
   debug("eyrie boot finished. drop to the user land ...");
   /* booting all finished, droping to the user land */

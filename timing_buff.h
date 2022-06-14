@@ -3,6 +3,9 @@
 
 #include "vm.h"
 
+// Essentially enable or disable the timing buff at compile time --
+// If set to 0 (disabled), timing buff may still be used
+// but fuzzing properties are effectively disabled.
 #define FUZZ 1
 
 typedef struct buff_entry {
@@ -24,11 +27,15 @@ bool timing_buff_push(void* dest, void* data, size_t data_size);
 // Returns # of successful flushes.
 // Returns -1 on failure.
 int timing_buff_flush_due_items(unsigned long curr_time);
+
+// Flushes all items, regardless of their due time.
+// Returns -1 on failure.
 int timing_buff_flush();
 
-// Flush the head of the timing buff
+// Flush the head of the timing buff.
 bool timing_buff_remove();
 
+// Get # of items in timing buff.
 int timing_buff_get_count();
 
 // void debug_timing_buff();
