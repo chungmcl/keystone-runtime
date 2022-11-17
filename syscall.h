@@ -18,6 +18,7 @@
 
 #define RUNTIME_SYSCALL_SHAREDWRITE         1005
 #define RUNTIME_SYSCALL_PAUSE_MS            1006
+#define RUNTIME_SYSCALL_PRINT_TIME          1007
 
 #define RUNTIME_SYSCALL_EXIT                1101
 

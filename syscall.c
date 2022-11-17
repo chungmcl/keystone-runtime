@@ -148,6 +148,10 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
   return copy_to_user(dst, (void*)src_ptr, size);
 }
 
+void handle_print_time() {
+  print_strace("fuzzy clock: %d\n", sbi_get_time());
+}
+
 // TODO(chungmcl): syscall to copy/write to shared memory
 // consider making it a build option?
 bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
@@ -215,6 +219,9 @@ void handle_syscall(struct encl_ctx* ctx)
     ret = handle_copy_from_shared((void*)arg0, arg1, arg2);
     break;
   // chungmcl
+  case(RUNTIME_SYSCALL_PRINT_TIME):
+    handle_print_time();
+    break;
   case(RUNTIME_SYSCALL_SHAREDWRITE):
     ret = handle_write_to_shared((void*)arg0, arg1, arg2);
     break;
