@@ -149,7 +149,7 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 }
 
 void handle_print_time() {
-  print_strace("fuzzy clock: %d\n\n", sbi_get_time());
+  print_strace("%d\n", sbi_get_time());
 }
 
 // TODO(chungmcl): syscall to copy/write to shared memory
