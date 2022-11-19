@@ -10,7 +10,7 @@
 #include "mm.h"
 #include "env.h"
 #include "paging.h"
-#include "timing_buff.h"
+#include "fuzzy_buff.h"
 
 /* defined in vm.h */
 extern uintptr_t shared_buffer;
@@ -171,7 +171,7 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   csr_write(sstatus, csr_read(sstatus) | 0x6000);
   
   // TODO(chungmcl):
-  if (timing_buff_init()) {
+  if (fuzzy_buff_init()) {
     // pass
   } else {
     // fail

@@ -10,7 +10,7 @@
 #include "uaccess.h"
 #include "mm.h"
 #include "rt_util.h"
-#include "timing_buff.h"
+#include "fuzzy_buff.h"
 
 #include "syscall_nums.h"
 
@@ -79,7 +79,7 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
    * region, calculate the offsets to the argument data, and then
    * dispatch the ocall to host */
 #if FUZZ
-  timing_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
+  fuzzy_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
 #else
   edge_call->call_id = call_id;
 #endif
@@ -149,7 +149,7 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 }
 
 void handle_print_time() {
-  print_strace("fuzzy clock: %d\n", sbi_get_time());
+  print_strace("fuzzy clock: %d\n\n", sbi_get_time());
 }
 
 // TODO(chungmcl): syscall to copy/write to shared memory
@@ -164,7 +164,7 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
 #if FUZZ
   copy_from_user((void*)rt_copy_buffer_2, src, size);
 
-  if (!timing_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
+  if (!fuzzy_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
     print_strace("write_to_shared push failed.\n");
   }
 #else
@@ -195,7 +195,7 @@ void handle_syscall(struct encl_ctx* ctx)
 
 #if FUZZ
   if (n != RUNTIME_SYSCALL_EXIT && n != RUNTIME_SYSCALL_OCALL) {
-    timing_buff_flush_due_items(sbi_get_time());
+    fuzzy_buff_flush_due_items(sbi_get_time());
   }
 #endif
 
