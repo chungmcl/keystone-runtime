@@ -149,7 +149,21 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 }
 
 void handle_print_time() {
-  print_strace("%d\n", sbi_get_time());
+  uint64_t LOOPS = 100000000000000;
+  
+  int array[15000];
+  uint64_t i = 0;
+
+  while (i < LOOPS) {
+    array[i] = sbi_get_time() / 100000;
+
+
+    i += 1;
+  }
+
+  for (i = 0; i < LOOPS; i++) {
+    print_strace("%lu\n", array[i]);
+  }
 }
 
 // TODO(chungmcl): syscall to copy/write to shared memory
