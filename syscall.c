@@ -149,6 +149,7 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 }
 
 void handle_print_time() {
+  print_strace("handle_print_time start\n");
   uint64_t LOOPS = 100000000000000;
   
   int array[15000];
