@@ -150,6 +150,7 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 
 int* get_array() {
   // size of page defined by RISCV_PAGE_SIZE in vm_defs.h
+  print_strace("getting page with %d bytes\n", RISCV_PAGE_SIZE);
 
   uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
   int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A;
