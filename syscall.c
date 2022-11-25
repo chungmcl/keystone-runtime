@@ -148,12 +148,36 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
   return copy_to_user(dst, (void*)src_ptr, size);
 }
 
+int* get_array() {
+  // size of page defined by RISCV_PAGE_SIZE in vm_defs.h
+
+  uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
+  int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A;
+  uintptr_t valid_pages;
+  int req_pages = 1;
+  while ((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END) {
+    valid_pages = test_va_range(starting_vpn, req_pages);
+
+    if (req_pages <= valid_pages) {
+      uintptr_t alloc_result = alloc_page(starting_vpn, pte_flags, false);
+      // if alloc_page fails
+      if (alloc_result == 0) {
+        return false;
+      }
+      return alloc_result;
+      break;
+    }
+    else
+      starting_vpn += valid_pages + 1;
+  }
+}
+
 void handle_print_time() {
   print_strace("handle_print_time start\n");
   // const int LOOPS = 9000;
   const int LOOPS = 15000;
   
-  int array[LOOPS];
+  int array[] = get_array();
   int i = 0;
 
   while (i < LOOPS) {
