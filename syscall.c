@@ -193,9 +193,10 @@ void handle_print_time() {
   int i = 0;
   while (i < LOOPS) {
     int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
-    print_strace("page_idx: %d\n", page_idx);
     int* page = pages[page_idx];
-    page[i - page_idx * RISCV_PAGE_SIZE] = sbi_get_time();
+    int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
+    print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
+    page[rel_offset] = sbi_get_time();
     i += 1;
   }
 
