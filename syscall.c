@@ -148,7 +148,7 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
   return copy_to_user(dst, (void*)src_ptr, size);
 }
 
-int* get_array() {
+int* __debug_get_page() {
   // size of page defined by RISCV_PAGE_SIZE in vm_defs.h
   print_strace("getting page with %d bytes\n", RISCV_PAGE_SIZE);
 
@@ -177,24 +177,31 @@ int* get_array() {
 
 void handle_print_time() {
   print_strace("handle_print_time start\n");
-  
-  int* array = get_array();
-  if (array == 0) {
-    print_strace("get page failed\n");
-    while (1) {}
-  }
-  print_strace("got a page with %d bytes\n", RISCV_PAGE_SIZE);
-
+  int PAGE_COUNT = 20;
   int LOOPS = 100000;
+
+  int* pages[PAGE_COUNT];
+  for (int page_idx = 0; page_idx < PAGE_COUNT; page_idx++) {
+    pages[page_idx] = __debug_get_page();
+    if (pages[page_idx] == 0) {
+      print_strace("get page failed!\n");
+      while (1) {}
+    }
+    print_strace("got page %d with %d bytes\n", page_idx, RISCV_PAGE_SIZE);
+  }
+
   int i = 0;
   while (i < LOOPS) {
-    array[i] = sbi_get_time();
+    int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
+    print_strace("page_idx: %d\n", page_idx);
+    int* page = pages[page_idx];
+    page[i - page_idx * RISCV_PAGE_SIZE] = sbi_get_time();
     i += 1;
   }
 
-  for (i = 0; i < LOOPS; i++) {
-    print_strace("%lu\n", array[i]);
-  }
+  // for (i = 0; i < LOOPS; i++) {
+  //   print_strace("%lu\n", array0[i]);
+  // }
 }
 
 // TODO(chungmcl): syscall to copy/write to shared memory
