@@ -195,7 +195,7 @@ void handle_print_time() {
     int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
     int* page = pages[page_idx];
     int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
-    print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
+    // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
     page[rel_offset] = sbi_get_time();
     i += 1;
   }
@@ -204,7 +204,7 @@ void handle_print_time() {
     int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
     int* page = pages[page_idx];
     int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
-    print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
+    // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
     print_strace("%lu\n", page[rel_offset]);
   }
 }
