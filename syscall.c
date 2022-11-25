@@ -167,7 +167,7 @@ void handle_print_time() {
     c += 1;
   }
 
-  while (i < LOOPS / 2) {
+  while (i < LOOPS) {
     array[i] = sbi_get_time();
 
     i += 1;
