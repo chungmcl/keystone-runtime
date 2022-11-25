@@ -171,6 +171,8 @@ int* get_array() {
     else
       starting_vpn += valid_pages + 1;
   }
+
+  return 0;
 }
 
 void handle_print_time() {
