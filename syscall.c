@@ -165,7 +165,7 @@ int* get_array() {
       if (alloc_result == 0) {
         return false;
       }
-      return alloc_result;
+      return (int*)alloc_result;
       break;
     }
     else
