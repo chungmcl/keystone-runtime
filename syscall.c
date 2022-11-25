@@ -151,26 +151,13 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 void handle_print_time() {
   print_strace("handle_print_time start\n");
   // const int LOOPS = 9000;
-  const int LOOPS = 10000;
+  const int LOOPS = 20000;
   
   int array[LOOPS];
   int i = 0;
 
-  while (i < LOOPS / 2) {
-    array[i] = sbi_get_time();
-
-    i += 1;
-  }
-
-  int c = 0;
-  int x = 100000;
-  while (c < x) {
-    c += 1;
-  }
-
   while (i < LOOPS) {
     array[i] = sbi_get_time();
-
     i += 1;
   }
 
