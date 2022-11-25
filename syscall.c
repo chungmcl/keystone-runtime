@@ -150,7 +150,7 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
 
 void handle_print_time() {
   print_strace("handle_print_time start\n");
-  const int LOOPS = 8000;
+  const int LOOPS = 100000;
   
   int array[LOOPS];
   int i = 0;
