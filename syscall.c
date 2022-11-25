@@ -156,7 +156,7 @@ void handle_print_time() {
   uint64_t i = 0;
 
   while (i < LOOPS) {
-    array[i] = sbi_get_time() / 100000;
+    array[i] = sbi_get_time();
 
 
     i += 1;
