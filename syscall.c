@@ -185,7 +185,7 @@ void handle_print_time() {
   }
   print_strace("got a page with %d bytes\n", RISCV_PAGE_SIZE);
 
-  int LOOPS = 15000;
+  int LOOPS = 100000;
   int i = 0;
   while (i < LOOPS) {
     array[i] = sbi_get_time();
