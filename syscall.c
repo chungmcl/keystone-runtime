@@ -177,7 +177,7 @@ int* __debug_get_page() {
 
 void handle_print_time() {
   print_strace("handle_print_time start\n");
-  int LOOPS = 10'000;
+  int LOOPS = 10000;
   int PAGE_COUNT = LOOPS * sizeof(int) / RISCV_PAGE_SIZE;
 
   int* pages[PAGE_COUNT];
