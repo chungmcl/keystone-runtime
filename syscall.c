@@ -152,7 +152,7 @@ void handle_print_time() {
   print_strace("handle_print_time start\n");
   uint64_t LOOPS = 10000000;
   
-  int array[15000];
+  int array[10000];
   uint64_t i = 0;
 
   while (i < LOOPS) {
