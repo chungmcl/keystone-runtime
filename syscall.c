@@ -177,7 +177,11 @@ void handle_print_time() {
   // const int LOOPS = 9000;
   const int LOOPS = 15000;
   
-  int array[] = get_array();
+  int* array = get_array();
+  if (array == 0) {
+    print_strace("get page failed\n");
+    while (1) {}
+  }
   int i = 0;
 
   while (i < LOOPS) {
