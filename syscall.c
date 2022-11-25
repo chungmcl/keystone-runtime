@@ -180,7 +180,7 @@ void handle_print_time() {
     print_strace("get page failed\n");
     while (1) {}
   }
-  print_strace("got a page with %d bytes\n" RISCV_PAGE_SIZE);
+  print_strace("got a page with %d bytes\n", RISCV_PAGE_SIZE);
 
   int LOOPS = 15000;
   int i = 0;
