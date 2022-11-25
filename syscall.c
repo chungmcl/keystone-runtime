@@ -174,16 +174,16 @@ int* get_array() {
 
 void handle_print_time() {
   print_strace("handle_print_time start\n");
-  // const int LOOPS = 9000;
-  const int LOOPS = 15000;
   
   int* array = get_array();
   if (array == 0) {
     print_strace("get page failed\n");
     while (1) {}
   }
-  int i = 0;
+  print_strace("got a page with %d bytes\n" RISCV_PAGE_SIZE);
 
+  int LOOPS = 15000;
+  int i = 0;
   while (i < LOOPS) {
     array[i] = sbi_get_time();
     i += 1;
