@@ -177,7 +177,7 @@ int* __debug_get_page() {
 
 void handle_print_time() {
   print_strace("handle_print_time start\n");
-  int LOOPS = 10000;
+  int LOOPS = 100000;
   int PAGE_COUNT = (LOOPS * sizeof(int) / RISCV_PAGE_SIZE) + 1;
 
   int* pages[PAGE_COUNT];
@@ -195,14 +195,17 @@ void handle_print_time() {
     int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
     int* page = pages[page_idx];
     int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
-    print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
+    // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
     page[rel_offset] = sbi_get_time();
     i += 1;
   }
 
-  // for (i = 0; i < LOOPS; i++) {
-  //   print_strace("%lu\n", array0[i]);
-  // }
+  for (i = 0; i < LOOPS; i++) {
+    int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
+    int* page = pages[page_idx];
+    int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
+    print_strace("%lu\n", page[rel_offset]);
+  }
 }
 
 // TODO(chungmcl): syscall to copy/write to shared memory
