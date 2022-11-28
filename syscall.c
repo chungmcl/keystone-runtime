@@ -175,6 +175,29 @@ int* __debug_get_page() {
   return 0;
 }
 
+void handle_print_time_() {
+  print_strace("handle_print_time 2\n");
+  int DATA_POINTS = 2000;
+  int data[DATA_POINTS];
+
+  for (int i = 0; i < DATA_POINTS; i++) {
+
+    int prev_time = sbi_get_time();
+    int time      = prev_time;
+    int j         = 0;
+    while (time == prev_time) {
+      j += 1;
+      prev_time = time;
+      time = sbi_get_time();
+    }
+    data[i] = j;
+  }
+
+  for (int i = 0; i < DATA_POINTS; i++) {
+    print_strace("%d\n", data[i]);
+  }
+}
+
 void handle_print_time() {
   handle_print_time_();
   print_strace("handle_print_time start\n");
@@ -207,29 +230,6 @@ void handle_print_time() {
     int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
     // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
     print_strace("%lu\n", page[rel_offset]);
-  }
-}
-
-void handle_print_time_() {
-  print_strace("handle_print_time 2\n");
-  int DATA_POINTS = 2000;
-  int data[DATA_POINTS];
-
-  for (int i = 0; i < DATA_POINTS; i++) {
-
-    int prev_time = sbi_get_time();
-    int time      = prev_time;
-    int j         = 0;
-    while (time == prev_time) {
-      j += 1;
-      prev_time = time;
-      time = sbi_get_time();
-    }
-    data[i] = j;
-  }
-
-  for (int i = 0; i < DATA_POINTS; i++) {
-    print_strace("%d\n", data[i]);
   }
 }
 
