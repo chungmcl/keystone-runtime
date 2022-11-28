@@ -175,7 +175,7 @@ int* __debug_get_page() {
   return 0;
 }
 
-void handle_print_time_() {
+void __handle_print_time() {
   print_strace("handle_print_time 2\n");
   int DATA_POINTS = 2000;
   int data[DATA_POINTS];
@@ -199,39 +199,38 @@ void handle_print_time_() {
 }
 
 void handle_print_time() {
-  handle_print_time_();
-  while (true) {}
-  print_strace("handle_print_time start\n");
-  int LOOPS = 1000000 / 4;
-  int PAGE_COUNT = (LOOPS * sizeof(int) / RISCV_PAGE_SIZE) + 1;
-
-  int* pages[PAGE_COUNT];
-  for (int page_idx = 0; page_idx < PAGE_COUNT; page_idx++) {
-    pages[page_idx] = __debug_get_page();
-    if (pages[page_idx] == 0) {
-      print_strace("get page failed!\n");
-      while (1) {}
-    }
-    print_strace("got page %d with %d bytes\n", page_idx, RISCV_PAGE_SIZE);
-  }
-
-  int i = 0;
-  while (i < LOOPS) {
-    int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
-    int* page = pages[page_idx];
-    int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
-    // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
-    page[rel_offset] = sbi_get_time();
-    i += 1;
-  }
-
-  for (i = 0; i < LOOPS; i++) {
-    int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
-    int* page = pages[page_idx];
-    int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
-    // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
-    print_strace("%lu\n", page[rel_offset]);
-  }
+  __handle_print_time();
+  // print_strace("handle_print_time start\n");
+  // int LOOPS = 1000000 / 4;
+  // int PAGE_COUNT = (LOOPS * sizeof(int) / RISCV_PAGE_SIZE) + 1;
+  // 
+  // int* pages[PAGE_COUNT];
+  // for (int page_idx = 0; page_idx < PAGE_COUNT; page_idx++) {
+  //   pages[page_idx] = __debug_get_page();
+  //   if (pages[page_idx] == 0) {
+  //     print_strace("get page failed!\n");
+  //     while (1) {}
+  //   }
+  //   print_strace("got page %d with %d bytes\n", page_idx, RISCV_PAGE_SIZE);
+  // }
+  // 
+  // int i = 0;
+  // while (i < LOOPS) {
+  //   int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
+  //   int* page = pages[page_idx];
+  //   int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
+  //   // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
+  //   page[rel_offset] = sbi_get_time();
+  //   i += 1;
+  // }
+  // 
+  // for (i = 0; i < LOOPS; i++) {
+  //   int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
+  //   int* page = pages[page_idx];
+  //   int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
+  //   // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
+  //   print_strace("%lu\n", page[rel_offset]);
+  // }
 }
 
 // TODO(chungmcl): syscall to copy/write to shared memory
