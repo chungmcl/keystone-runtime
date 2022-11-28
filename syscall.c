@@ -200,6 +200,7 @@ void handle_print_time_() {
 
 void handle_print_time() {
   handle_print_time_();
+  while (true) {}
   print_strace("handle_print_time start\n");
   int LOOPS = 1000000 / 4;
   int PAGE_COUNT = (LOOPS * sizeof(int) / RISCV_PAGE_SIZE) + 1;
