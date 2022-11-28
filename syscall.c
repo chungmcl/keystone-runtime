@@ -177,7 +177,8 @@ int* __debug_get_page() {
 
 void __handle_print_time() {
   print_strace("handle_print_time 2\n");
-  int DATA_POINTS = 1000;
+  // 1000 takes about 12 real time seconds
+  int DATA_POINTS = 2000;
   int data[DATA_POINTS];
 
   for (int i = 0; i < DATA_POINTS; i++) {
