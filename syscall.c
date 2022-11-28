@@ -177,7 +177,7 @@ int* __debug_get_page() {
 
 void __handle_print_time() {
   print_strace("handle_print_time 2\n");
-  int DATA_POINTS = 40;
+  int DATA_POINTS = 80;
   int data[DATA_POINTS];
 
   for (int i = 0; i < DATA_POINTS; i++) {
