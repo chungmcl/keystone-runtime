@@ -44,6 +44,9 @@ void
 sbi_set_timer(uint64_t stime_value);
 
 // START(chungmcl)
+uintptr_t
+sbi_reg_clock_ipi(void (* process)(struct sbi_scratch *scratch));
+
 unsigned long
 sbi_pause();
 

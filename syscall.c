@@ -235,8 +235,8 @@ void handle_print_time() {
   // }
 }
 
-void handle_reg_clock_ipi() {
-  sbi
+void handle_reg_clock_ipi(uintptr_t process) {
+  sbi_reg_clock_ipi((void (*)(struct sbi_scratch *scratch))process);
 }
 
 // TODO(chungmcl): syscall to copy/write to shared memory
