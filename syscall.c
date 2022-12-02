@@ -311,8 +311,7 @@ void handle_syscall(struct encl_ctx* ctx)
     break;
   // chungmcl
   case(RUNTIME_SYSCALL_REG_CLOCK_IPI):
-    print_strace("REG_CLOCK_IPI\n");
-    // handle_reg_clock_ipi(arg0);
+    handle_reg_clock_ipi(arg0);
     ret = 1;
     break;
   case(RUNTIME_SYSCALL_PRINT_TIME):
