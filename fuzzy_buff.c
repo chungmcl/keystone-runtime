@@ -3,7 +3,7 @@
 #include "vm.h"
 #include "mm.h"
 
-// #include "syscall.h" // for debugging w/ print_strace() calls
+#include "syscall.h" // for debugging w/ print_strace() calls
 
 uintptr_t fuzzy_buff;
 uintptr_t fuzzy_buff_end;
@@ -42,6 +42,9 @@ bool fuzzy_buff_init() {
   fuzzy_buff_count = 0;
   head = NULL;
   tail = NULL;
+
+  sbi_reg_clock_ipi(ipi_handle);
+
   return true;
 }
 
@@ -144,6 +147,10 @@ bool fuzzy_buff_remove() {
 
 int fuzzy_buff_get_count() {
   return fuzzy_buff_count;
+}
+
+void ipi_handle(struct sbi_scratch *scratch) {
+  print_strace("ipi_handle called!\n");
 }
 
 // for print_strace() to work, make sure to change the line:

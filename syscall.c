@@ -281,9 +281,6 @@ void handle_syscall(struct encl_ctx* ctx)
   uintptr_t arg3 = ctx->regs.a3;
   uintptr_t arg4 = ctx->regs.a4;
 
-
-  print_strace("n: %d\n", n);
-
 #if FUZZ
   if (n != RUNTIME_SYSCALL_EXIT && n != RUNTIME_SYSCALL_OCALL) {
     fuzzy_buff_flush_due_items(sbi_get_time());
@@ -310,10 +307,6 @@ void handle_syscall(struct encl_ctx* ctx)
     ret = handle_copy_from_shared((void*)arg0, arg1, arg2);
     break;
   // chungmcl
-  case(RUNTIME_SYSCALL_REG_CLOCK_IPI):
-    handle_reg_clock_ipi(arg0);
-    ret = 1;
-    break;
   case(RUNTIME_SYSCALL_PRINT_TIME):
     handle_print_time();
     break;
