@@ -178,6 +178,7 @@ int* __debug_get_page() {
 void __handle_print_time() {
   print_strace("handle_print_time 2\n");
   // 1000 takes about 12 real time seconds
+  // 2000 takes about 22 real time seconds
   int DATA_POINTS = 2000;
   int data[DATA_POINTS];
 
@@ -232,6 +233,10 @@ void handle_print_time() {
   //   // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
   //   print_strace("%lu\n", page[rel_offset]);
   // }
+}
+
+void handle_reg_clock_ipi() {
+  sbi
 }
 
 // TODO(chungmcl): syscall to copy/write to shared memory
@@ -301,10 +306,13 @@ void handle_syscall(struct encl_ctx* ctx)
     ret = handle_copy_from_shared((void*)arg0, arg1, arg2);
     break;
   // chungmcl
+  case(RUNTIME_SYSCALL_REG_CLOCK_IPI):
+    handle_reg_clock_ipi(arg0);
+    break;
   case(RUNTIME_SYSCALL_PRINT_TIME):
     handle_print_time();
     break;
-  case(RUNTIME_SYSCALL_SHAREDWRITE):
+  case(RUNTIME_SYSCALL_SHARED_WRITE):
     ret = handle_write_to_shared((void*)arg0, arg1, arg2);
     break;
   case(RUNTIME_SYSCALL_PAUSE_MS):

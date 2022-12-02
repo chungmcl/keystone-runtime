@@ -41,6 +41,12 @@ sbi_set_timer(uint64_t stime_value) {
 #endif
 }
 
+// fuzzy time / management core
+uintptr_t
+sbi_reg_clock_ipi(void (* process)(struct sbi_scratch *scratch)) {
+  return SBI_CALL_1(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_REG_CLOCK_IPI, process);
+}
+
 uintptr_t
 sbi_pause() {
   return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_PAUSE);
@@ -76,6 +82,7 @@ sbi_exit_enclave(uint64_t retval) {
 #endif
   SBI_CALL_1(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_EXIT_ENCLAVE, retval);
 }
+// fuzzy time / management core
 
 uintptr_t
 sbi_random() {

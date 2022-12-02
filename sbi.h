@@ -28,6 +28,7 @@
 #define SBI_SM_PAUSE_MS           3008
 #define SBI_SM_GET_TIME           3009
 #define SBI_SM_GET_INTERVAL_LEN   3010
+#define SBI_SM_REG_CLOCK_IPI      3011
 // END(chungmcl)
 
 #define SBI_SM_CALL_PLUGIN       4000
