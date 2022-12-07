@@ -10,6 +10,7 @@
 #include <asm/csr.h>
 
 #define DEFAULT_CLOCK_DELAY 10000
+#include "syscall.h" // for debugging w/ print_strace() calls
 
 void init_timer(void)
 {
@@ -29,6 +30,7 @@ void handle_timer_interrupt()
 
 void handle_interrupts(struct encl_ctx* regs)
 {
+  print_strace("\thandle_interrupts called!\n");
   unsigned long cause = regs->scause;
 
   switch(cause) {
