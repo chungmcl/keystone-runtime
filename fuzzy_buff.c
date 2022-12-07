@@ -149,7 +149,7 @@ int fuzzy_buff_get_count() {
   return fuzzy_buff_count;
 }
 
-void ipi_handle(struct sbi_scratch *scratch) {
+void fuzzy_buff_ipi_handle(struct sbi_scratch *scratch) {
   print_strace("\tipi_handle called!\n");
 }
 

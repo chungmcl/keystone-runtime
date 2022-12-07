@@ -40,7 +40,7 @@ void handle_interrupts(struct encl_ctx* regs)
       break;
     /* ignore other interrupts */
     case INTERRUPT_CAUSE_SOFTWARE:
-      ipi_handle();
+      fuzzy_buff_ipi_handle();
       break;
     case INTERRUPT_CAUSE_EXTERNAL:
     default:
