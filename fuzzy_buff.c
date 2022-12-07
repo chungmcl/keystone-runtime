@@ -150,7 +150,8 @@ int fuzzy_buff_get_count() {
 }
 
 void fuzzy_buff_ipi_handle(struct sbi_scratch *scratch) {
-  print_strace("\tipi_handle called!\n");
+  // print_strace("\tipi_handle called!\n");
+  fuzzy_buff_flush();
 }
 
 // for print_strace() to work, make sure to change the line:

@@ -31,17 +31,17 @@ void handle_timer_interrupt()
 
 void handle_interrupts(struct encl_ctx* regs)
 {
-  print_strace("\thandle_interrupts called!\n");
+  // print_strace("\thandle_interrupts called!\n");
   unsigned long cause = regs->scause;
 
   switch(cause) {
     case INTERRUPT_CAUSE_TIMER:
       handle_timer_interrupt();
       break;
-    /* ignore other interrupts */
     case INTERRUPT_CAUSE_SOFTWARE:
       fuzzy_buff_ipi_handle();
       break;
+    /* ignore other interrupts */
     case INTERRUPT_CAUSE_EXTERNAL:
     default:
       sbi_stop_enclave(0);
