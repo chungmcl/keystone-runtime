@@ -43,7 +43,7 @@ bool fuzzy_buff_init() {
   head = NULL;
   tail = NULL;
 
-  sbi_reg_clock_ipi(ipi_handle);
+  sbi_reg_clock_ipi();
 
   return true;
 }
@@ -150,7 +150,7 @@ int fuzzy_buff_get_count() {
 }
 
 void ipi_handle(struct sbi_scratch *scratch) {
-  print_strace("ipi_handle called!\n");
+  print_strace("\tipi_handle called!\n");
 }
 
 // for print_strace() to work, make sure to change the line:

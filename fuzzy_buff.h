@@ -16,7 +16,7 @@ typedef struct buff_entry {
   uint8_t data_copy[];  // flexible array member
 } buff_entry;
 
-void ipi_handle(struct sbi_scratch *scratch);
+void ipi_handle();
 
 // Initialize the timing buff
 bool fuzzy_buff_init();

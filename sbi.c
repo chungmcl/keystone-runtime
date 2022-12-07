@@ -43,8 +43,8 @@ sbi_set_timer(uint64_t stime_value) {
 
 // fuzzy time / management core
 uintptr_t
-sbi_reg_clock_ipi(void (* process)(struct sbi_scratch *scratch)) {
-  return SBI_CALL_1(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_REG_CLOCK_IPI, process);
+sbi_reg_clock_ipi() {
+  return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_REG_CLOCK_IPI);
 }
 
 uintptr_t

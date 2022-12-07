@@ -71,7 +71,7 @@ struct sbi_scratch {
 };
 
 uintptr_t
-sbi_reg_clock_ipi(void (* process)(struct sbi_scratch *scratch));
+sbi_reg_clock_ipi();
 
 unsigned long
 sbi_pause();

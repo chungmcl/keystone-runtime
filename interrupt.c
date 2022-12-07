@@ -8,6 +8,7 @@
 #include "interrupt.h"
 #include "printf.h"
 #include <asm/csr.h>
+#include "fuzzy_buff.h"
 
 #define DEFAULT_CLOCK_DELAY 10000
 #include "syscall.h" // for debugging w/ print_strace() calls
@@ -39,6 +40,8 @@ void handle_interrupts(struct encl_ctx* regs)
       break;
     /* ignore other interrupts */
     case INTERRUPT_CAUSE_SOFTWARE:
+      ipi_handle();
+      break;
     case INTERRUPT_CAUSE_EXTERNAL:
     default:
       sbi_stop_enclave(0);
