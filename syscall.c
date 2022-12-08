@@ -249,6 +249,7 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
 
 #if FUZZ
   copy_from_user((void*)rt_copy_buffer_2, src, size);
+  print_strace("%s", rt_copy_buffer_2);
 
   if (!fuzzy_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
     print_strace("write_to_shared push failed.\n");
@@ -256,7 +257,6 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
 #else
   copy_from_user((void*)(dst_ptr), src, size);
 #endif
-
 
   return true;
 }
