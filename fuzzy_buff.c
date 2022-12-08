@@ -142,7 +142,7 @@ int fuzzy_buff_flush() {
 bool fuzzy_buff_remove() {
   if (fuzzy_buff_count > 0) {
     memcpy(head->dest, head->data_copy, head->data_size);
-    print_strace("fuzzy_buff_remove() wrote val:\n %s\nto %p with size %d\n", head->data_copy, head->dest, head->data_size);
+    print_strace("fuzzy_buff_remove() wrote val:\n%s\nto 0x%p with size %d\n", head->data_copy, head->dest, head->data_size);
     head = head->next;
     fuzzy_buff_count -= 1;
     return true;
