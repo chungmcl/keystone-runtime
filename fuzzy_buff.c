@@ -118,7 +118,10 @@ int fuzzy_buff_flush_due_items(unsigned long curr_time) {
         count += 1;
       } else return -1;
       // print_strace("\n");
-    } else return count;
+    } else {
+      print_strace("curr time: %d && write time: %d\n", curr_time, curr->write_time);
+      return count;
+    }
     curr = curr->next;
   }
   return count;
