@@ -92,6 +92,7 @@ bool fuzzy_buff_push(void* dest, void* data, size_t data_size) {
   entry_ptr->next = head;
   entry_ptr->data_size = data_size;
   entry_ptr->write_time = time + 2 * sbi_get_interval_len();
+  print_strace("write time: %d\n", entry_ptr->write_time);
 
   entry_ptr->dest = dest;
   memcpy(entry_ptr->data_copy, data, data_size);
