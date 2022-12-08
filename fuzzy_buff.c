@@ -151,7 +151,12 @@ int fuzzy_buff_get_count() {
 
 void fuzzy_buff_ipi_handle(struct sbi_scratch *scratch) {
   // print_strace("\tipi_handle called!\n");
-  fuzzy_buff_flush();
+  int flushed_items = fuzzy_buff_flush();
+  if (flushed_items < 0) {
+    print_strace("!!! fuzzy_buff_flush() failed!\n");
+  }
+
+  // signal that our interrupt is done
   csr_clear(sip, SIE_SSIE);
 }
 

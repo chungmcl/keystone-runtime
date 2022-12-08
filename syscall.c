@@ -183,9 +183,7 @@ void __handle_print_time() {
   int data[DATA_POINTS];
 
   for (int i = 0; i < DATA_POINTS; i++) {
-    print_strace("uhhhh\n");
     int prev_time = sbi_get_time();
-    print_strace("uhhhh\n");
     int time      = prev_time;
     int j         = 0;
     while (time == prev_time) {
