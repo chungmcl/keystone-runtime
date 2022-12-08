@@ -138,7 +138,7 @@ int fuzzy_buff_flush() {
 bool fuzzy_buff_remove() {
   if (fuzzy_buff_count > 0) {
     memcpy(head->dest, head->data_copy, head->data_size);
-    // print_strace("fuzzy_buff_remove() wrote val: %lu\n", *head->dest);
+    print_strace("fuzzy_buff_remove() wrote val: %lu\n", *head->dest);
     head = head->next;
     fuzzy_buff_count -= 1;
     return true;
@@ -152,9 +152,11 @@ int fuzzy_buff_get_count() {
 void fuzzy_buff_ipi_handle(struct sbi_scratch *scratch) {
   // print_strace("\tipi_handle called!\n");
   int flushed_items = fuzzy_buff_flush();
+  
   if (flushed_items < 0) {
     print_strace("!!! fuzzy_buff_flush() failed!\n");
   }
+  print_strace("fuzzy buff flushed %d items\n", flushed_items);
 
   // signal that our interrupt is done
   csr_clear(sip, SIE_SSIE);
