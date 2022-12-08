@@ -92,7 +92,7 @@ bool fuzzy_buff_push(void* dest, void* data, size_t data_size) {
   entry_ptr->next = head;
   entry_ptr->data_size = data_size;
   entry_ptr->write_time = time + 2 * sbi_get_interval_len();
-  print_strace("write time: %d\n", entry_ptr->write_time);
+  // print_strace("write time: %d\n", entry_ptr->write_time);
 
   entry_ptr->dest = dest;
   memcpy(entry_ptr->data_copy, data, data_size);
@@ -120,7 +120,7 @@ int fuzzy_buff_flush_due_items(unsigned long curr_time) {
       } else return -1;
       // print_strace("\n");
     } else {
-      print_strace("curr time: %d && write time: %d\n", curr_time, curr->write_time);
+      // print_strace("curr time: %d && write time: %d\n", curr_time, curr->write_time);
       return count;
     }
     curr = curr->next;
@@ -142,7 +142,7 @@ int fuzzy_buff_flush() {
 bool fuzzy_buff_remove() {
   if (fuzzy_buff_count > 0) {
     memcpy(head->dest, head->data_copy, head->data_size);
-    print_strace("fuzzy_buff_remove() wrote val: %s\n", head->data_copy);
+    print_strace("fuzzy_buff_remove() wrote val: %s\nto %p with size\n", head->data_copy, head->dest, head->data->size);
     head = head->next;
     fuzzy_buff_count -= 1;
     return true;
@@ -160,7 +160,7 @@ void fuzzy_buff_ipi_handle(struct sbi_scratch *scratch) {
   if (flushed_items < 0) {
     print_strace("!!! fuzzy_buff_flush() failed!\n");
   }
-  print_strace("fuzzy buff flushed %d items\n", flushed_items);
+  // print_strace("fuzzy buff flushed %d items\n", flushed_items);
 
   // signal that our interrupt is done
   csr_clear(sip, SIE_SSIE);
