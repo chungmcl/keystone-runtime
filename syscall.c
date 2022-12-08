@@ -255,6 +255,7 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
   }
 #else
   copy_from_user((void*)(dst_ptr), src, size);
+  print_strace("directly copied to shared mem: %s", dst_ptr);
 #endif
 
   return true;
