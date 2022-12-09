@@ -43,6 +43,7 @@ bool fuzzy_buff_init() {
   head = NULL;
   tail = NULL;
 
+  // Register this enclave for SM fuzzy clock interrupts
   sbi_reg_clock_ipi();
 
   return true;
@@ -153,14 +154,13 @@ int fuzzy_buff_get_count() {
   return fuzzy_buff_count;
 }
 
+// called by handle_interrupts() in interrupt.c
 void fuzzy_buff_ipi_handle(struct sbi_scratch *scratch) {
-  // print_strace("\tipi_handle called!\n");
   int flushed_items = fuzzy_buff_flush_due_items(sbi_get_time());
   
   if (flushed_items < 0) {
     print_strace("!!! fuzzy_buff_flush() failed!\n");
   }
-  // print_strace("fuzzy buff flushed %d items\n", flushed_items);
 
   // signal that our interrupt is done
   csr_clear(sip, SIE_SSIE);
