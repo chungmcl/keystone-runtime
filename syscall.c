@@ -148,35 +148,7 @@ uintptr_t handle_copy_from_shared(void* dst, uintptr_t offset, size_t size){
   return copy_to_user(dst, (void*)src_ptr, size);
 }
 
-int* __debug_get_page() {
-  // size of page defined by RISCV_PAGE_SIZE in vm_defs.h
-  print_strace("getting page with %d bytes\n", RISCV_PAGE_SIZE);
-
-  uintptr_t starting_vpn = vpn(EYRIE_ANON_REGION_START);
-  int pte_flags = PTE_R | PTE_W | PTE_D | PTE_A;
-  uintptr_t valid_pages;
-  int req_pages = 1;
-  while ((starting_vpn + req_pages) <= EYRIE_ANON_REGION_END) {
-    valid_pages = test_va_range(starting_vpn, req_pages);
-
-    if (req_pages <= valid_pages) {
-      uintptr_t alloc_result = alloc_page(starting_vpn, pte_flags, false);
-      // if alloc_page fails
-      if (alloc_result == 0) {
-        return false;
-      }
-      return (int*)alloc_result;
-      break;
-    }
-    else
-      starting_vpn += valid_pages + 1;
-  }
-
-  return 0;
-}
-
-void __handle_print_time() {
-  print_strace("handle_print_time 2\n");
+void handle_print_time() {
   // 1000 takes about 12 real time seconds
   // 2000 takes about 22 real time seconds
   int DATA_POINTS = 2000;
@@ -197,41 +169,6 @@ void __handle_print_time() {
   for (int i = 0; i < DATA_POINTS; i++) {
     print_strace("%d\n", data[i]);
   }
-}
-
-void handle_print_time() {
-  __handle_print_time();
-  // print_strace("handle_print_time start\n");
-  // int LOOPS = 1000000 / 4;
-  // int PAGE_COUNT = (LOOPS * sizeof(int) / RISCV_PAGE_SIZE) + 1;
-  // 
-  // int* pages[PAGE_COUNT];
-  // for (int page_idx = 0; page_idx < PAGE_COUNT; page_idx++) {
-  //   pages[page_idx] = __debug_get_page();
-  //   if (pages[page_idx] == 0) {
-  //     print_strace("get page failed!\n");
-  //     while (1) {}
-  //   }
-  //   print_strace("got page %d with %d bytes\n", page_idx, RISCV_PAGE_SIZE);
-  // }
-  // 
-  // int i = 0;
-  // while (i < LOOPS) {
-  //   int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
-  //   int* page = pages[page_idx];
-  //   int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
-  //   // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
-  //   page[rel_offset] = sbi_get_time();
-  //   i += 1;
-  // }
-  // 
-  // for (i = 0; i < LOOPS; i++) {
-  //   int page_idx = (i * sizeof(int)) / RISCV_PAGE_SIZE;
-  //   int* page = pages[page_idx];
-  //   int rel_offset = i - page_idx * RISCV_PAGE_SIZE / sizeof(int);
-  //   // print_strace("page_idx: %d && page: %p && rel_offset: %d\n", page_idx, page, rel_offset);
-  //   print_strace("%lu\n", page[rel_offset]);
-  // }
 }
 
 void handle_reg_clock_ipi() {
