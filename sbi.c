@@ -59,10 +59,10 @@ sbi_pause_ms(unsigned long ms) {
 
 unsigned long
 sbi_get_time() {
-  // SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_TIME);
-  // register uintptr_t a1 __asm__("a1");
-  // return (unsigned long)a1;
-  return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_TIME);
+  SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_TIME);
+  register uintptr_t a1 __asm__("a1");
+  return (unsigned long)a1;
+  // return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_TIME);
 }
 
 unsigned long
