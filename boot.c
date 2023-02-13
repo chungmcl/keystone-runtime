@@ -171,7 +171,7 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   csr_write(sstatus, csr_read(sstatus) | 0x6000);
   
   if (sbi_get_is_clock_fuzzy()) {
-    sbi_printf("clock is fuzzy");
+    print_strace("clock is fuzzy");
     // TODO(chungmcl):
     if (fuzzy_buff_init()) {
       print_strace("fuzzy buff init");
