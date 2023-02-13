@@ -3,11 +3,6 @@
 
 #include "vm.h"
 
-// Essentially enable or disable the timing buff at compile time --
-// If set to 0 (disabled), timing buff may still be used
-// but fuzzing properties are effectively disabled.
-#define FUZZ 1
-
 extern bool use_fuzzy_buff;
 
 typedef struct buff_entry {

@@ -172,11 +172,9 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   
   if (sbi_get_is_clock_fuzzy()) {
     // TODO(chungmcl):
-    if (fuzzy_buff_init()) {
-      // pass
-    } else {
-      debug("fuzzy_buff_init() failed!");
-      // fail
+    if (!fuzzy_buff_init()) {
+      print_strace("!!! fuzzy_buff failed to initialize !!!\n");
+      // TODO(chungmcl):
       // make SM call to exit()
       // (also create an issue for SM on SM repo -- we need a way
       // for an enclave to exit AND say that it can never be run again)

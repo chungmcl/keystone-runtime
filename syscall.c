@@ -187,9 +187,8 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
     }
   }
   else {
+    // copy directly to memory
     copy_from_user((void*)(dst_ptr), src, size);
-    
-    print_strace("directly copied to shared mem:\n%s", dst_ptr);
   }
 
   return true;
