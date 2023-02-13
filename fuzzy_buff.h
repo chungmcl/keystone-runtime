@@ -8,6 +8,8 @@
 // but fuzzing properties are effectively disabled.
 #define FUZZ 1
 
+extern bool use_fuzzy_buff;
+
 typedef struct buff_entry {
   struct buff_entry* next;
   uint8_t* dest;

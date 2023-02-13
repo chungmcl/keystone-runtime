@@ -5,6 +5,8 @@
 
 #include "syscall.h" // for debugging w/ print_strace() calls
 
+bool use_fuzzy_buff;
+
 uintptr_t fuzzy_buff;
 uintptr_t fuzzy_buff_end;
 int fuzzy_buff_size;
@@ -28,6 +30,7 @@ bool fuzzy_buff_init() {
       uintptr_t alloc_result = alloc_page(starting_vpn, pte_flags, false);
       // if alloc_page fails
       if (alloc_result == 0) {
+        use_fuzzy_buff = false;
         return false;
       }
       fuzzy_buff = alloc_result;
@@ -43,9 +46,8 @@ bool fuzzy_buff_init() {
   head = NULL;
   tail = NULL;
 
-  // Register this enclave for SM fuzzy clock interrupts
-  sbi_reg_clock_ipi();
-
+  use_fuzzy_buff = true;
+  print_strace("!!! fuzzy_buff initialized!\n");
   return true;
 }
 

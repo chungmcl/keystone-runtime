@@ -78,13 +78,12 @@ uintptr_t dispatch_edgecall_ocall( unsigned long call_id,
   /* We encode the call id, copy the argument data into the shared
    * region, calculate the offsets to the argument data, and then
    * dispatch the ocall to host */
-#if FUZZ
-  fuzzy_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
-#else
-  edge_call->call_id = call_id;
-#endif
+  if (use_fuzzy_buff) {
+    fuzzy_buff_push((void*)&edge_call->call_id, &call_id, sizeof(call_id));
+  } else {
+    edge_call->call_id = call_id;
+  }
   
-
   uintptr_t buffer_data_start = edge_call_data_ptr();
 
   if(data_len > (shared_buffer_size - (buffer_data_start - shared_buffer))){
@@ -171,10 +170,6 @@ void handle_print_time() {
   }
 }
 
-void handle_reg_clock_ipi() {
-  sbi_reg_clock_ipi();
-}
-
 // TODO(chungmcl): syscall to copy/write to shared memory
 // consider making it a build option?
 bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
@@ -184,16 +179,17 @@ bool handle_write_to_shared(void* src, uintptr_t offset, size_t size) {
     return false;
   }
 
-#if FUZZ
-  copy_from_user((void*)rt_copy_buffer_2, src, size);
-  // print_strace("%s", rt_copy_buffer_2);
-  if (!fuzzy_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
-    print_strace("write_to_shared push failed.\n");
+  if (use_fuzzy_buff) {
+    copy_from_user((void*)rt_copy_buffer_2, src, size);
+    // print_strace("%s", rt_copy_buffer_2);
+    if (!fuzzy_buff_push((void*)dst_ptr, rt_copy_buffer_2, size)) {
+      print_strace("write_to_shared push failed.\n");
+    }
   }
-#else
-  copy_from_user((void*)(dst_ptr), src, size);
-  // print_strace("directly copied to shared mem:\n%s", dst_ptr);
-#endif
+  else {
+    copy_from_user((void*)(dst_ptr), src, size);
+    // print_strace("directly copied to shared mem:\n%s", dst_ptr);
+  }
 
   return true;
 }
@@ -216,11 +212,12 @@ void handle_syscall(struct encl_ctx* ctx)
   uintptr_t arg3 = ctx->regs.a3;
   uintptr_t arg4 = ctx->regs.a4;
 
-#if FUZZ
-  if (n != RUNTIME_SYSCALL_EXIT && n != RUNTIME_SYSCALL_OCALL) {
-    fuzzy_buff_flush_due_items(sbi_get_time());
+  // TODO(chungmcl): do we still want to do this...?
+  if (use_fuzzy_buff) {
+    if (n != RUNTIME_SYSCALL_EXIT && n != RUNTIME_SYSCALL_OCALL) {
+      fuzzy_buff_flush_due_items(sbi_get_time());
+    }
   }
-#endif
 
   // We only use arg5 in these for now, keep warnings happy.
 #if defined(LINUX_SYSCALL_WRAPPING) || defined(IO_SYSCALL_WRAPPING)

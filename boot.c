@@ -170,14 +170,17 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   /* Enable the FPU */
   csr_write(sstatus, csr_read(sstatus) | 0x6000);
   
-  // TODO(chungmcl):
-  if (fuzzy_buff_init()) {
-    // pass
-  } else {
-    // fail
-    // make SM call to exit()
-    // (also create an issue for SM on SM repo -- we need a way
-    // for an enclave to exit AND say that it can never be run again)
+  if (sbi_get_is_clock_fuzzy()) {
+    // TODO(chungmcl):
+    if (fuzzy_buff_init()) {
+      // pass
+    } else {
+      debug("fuzzy_buff_init() failed!");
+      // fail
+      // make SM call to exit()
+      // (also create an issue for SM on SM repo -- we need a way
+      // for an enclave to exit AND say that it can never be run again)
+    }
   }
 
   debug("eyrie boot finished. drop to the user land ...");

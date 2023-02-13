@@ -43,8 +43,8 @@ sbi_set_timer(uint64_t stime_value) {
 
 // fuzzy time / management core
 uintptr_t
-sbi_reg_clock_ipi() {
-  return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_REG_CLOCK_IPI);
+sbi_get_is_clock_fuzzy() {
+  return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_IS_CLOCK_FUZZY);
 }
 
 uintptr_t
@@ -62,7 +62,6 @@ sbi_get_time() {
   SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_TIME);
   register uintptr_t a2 __asm__("a2");
   return (unsigned long)a2;
-  // return SBI_CALL_0(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_GET_TIME);
 }
 
 unsigned long
@@ -72,17 +71,17 @@ sbi_get_interval_len() {
 
 uintptr_t
 sbi_stop_enclave(uint64_t request) {
-#if FUZZ
-  fuzzy_buff_flush();
-#endif
+  if (use_fuzzy_buff) {
+    fuzzy_buff_flush();
+  }
   return SBI_CALL_1(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_STOP_ENCLAVE, request);
 }
 
 void
 sbi_exit_enclave(uint64_t retval) {
-#if FUZZ
-  fuzzy_buff_flush();
-#endif
+  if (use_fuzzy_buff) {
+    fuzzy_buff_flush();
+  }
   SBI_CALL_1(SBI_EXT_EXPERIMENTAL_KEYSTONE_ENCLAVE, SBI_SM_EXIT_ENCLAVE, retval);
 }
 // fuzzy time / management core
