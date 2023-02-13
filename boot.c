@@ -171,10 +171,8 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
   csr_write(sstatus, csr_read(sstatus) | 0x6000);
   
   if (sbi_get_is_clock_fuzzy()) {
-    print_strace("clock is fuzzy");
     // TODO(chungmcl):
     if (fuzzy_buff_init()) {
-      print_strace("fuzzy buff init");
       // pass
     } else {
       debug("fuzzy_buff_init() failed!");
@@ -183,7 +181,7 @@ eyrie_boot(uintptr_t dummy, // $a0 contains the return value from the SBI
       // (also create an issue for SM on SM repo -- we need a way
       // for an enclave to exit AND say that it can never be run again)
     }
-  } else print_strace("clock is NOT fuzzy");
+  }
 
   debug("eyrie boot finished. drop to the user land ...");
   /* booting all finished, droping to the user land */

@@ -47,7 +47,6 @@ bool fuzzy_buff_init() {
   tail = NULL;
 
   use_fuzzy_buff = true;
-  print_strace("!!! fuzzy_buff initialized!\n");
   return true;
 }
 
