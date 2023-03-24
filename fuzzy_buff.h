@@ -3,6 +3,8 @@
 
 #include "vm.h"
 
+// Whether or not the fuzzy buff is enabled.
+// Set at runtime boot.
 extern bool use_fuzzy_buff;
 
 typedef struct buff_entry {
@@ -13,6 +15,8 @@ typedef struct buff_entry {
   uint8_t data_copy[];  // flexible array member
 } buff_entry;
 
+// Handler for interrupts from the Keystone SM clock.
+// Called by handle_interrupts() in interrupt.c.
 void fuzzy_buff_ipi_handle();
 
 // Initialize the timing buff

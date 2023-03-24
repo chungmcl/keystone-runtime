@@ -154,12 +154,11 @@ int fuzzy_buff_get_count() {
   return fuzzy_buff_count;
 }
 
-// called by handle_interrupts() in interrupt.c
 void fuzzy_buff_ipi_handle(struct sbi_scratch *scratch) {
   int flushed_items = fuzzy_buff_flush_due_items(sbi_get_time());
   
   if (flushed_items < 0) {
-    print_strace("!!! fuzzy_buff_flush() failed!\n");
+    print_strace("!!! fuzzy_buff_flush() failed !!!\n");
   }
 
   // signal that our interrupt is done
